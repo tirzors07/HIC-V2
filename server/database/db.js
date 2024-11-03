@@ -3,6 +3,6 @@ import { Sequelize } from 'sequelize'
 
 const db = new Sequelize('db_hic', 'master', 'admin123', {
     host: ' ',
-    dialect:'mysql'
+    dialect:'mariadb'
 });
 export default db;
