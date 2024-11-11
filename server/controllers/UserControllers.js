@@ -11,23 +11,18 @@ export const getAllUsers = async (req, res) => {
 };
 // Se crea un registro de usuario
 export const createUser = async (req, res) => {
-    const { name_, email, password_, matricula, role } = req.body;
+    const { username_, email, password_, matricula, role } = req.body;
 
     try {
         // Validación básica según el rol
-        if (role === 'hic_admin') {
             // Para administradores, se requiere email y password
             if (!email || !password_) {
                 return res.status(400).json({ message: 'Email y contraseña son requeridos para administradores.' });
             }
-        } else if (role === 'general') {
             // Para usuarios generales, se requiere matricula
             if (!matricula) {
                 return res.status(400).json({ message: 'Matrícula es requerida para usuarios generales.' });
             }
-        } else {
-            return res.status(400).json({ message: 'Rol no válido.' });
-        }
 
         const newUser = await UserModel.create(req.body);
         res.status(201).json({

@@ -3,9 +3,13 @@ import Express from 'express';
 import cors from 'cors';
 import db from './database/db.js'; // Importa db
 import testConnection from './database/testConnection.js'; // Importa la función de prueba
+import userRoutes from "./routes/routesUser.js"
+
 const app = Express();
 app.use(cors());
 app.use(Express.json());
+app.use("/users", userRoutes);
+
 // Probar la conexión a la base de datos
 const startApp = async () => {
     await testConnection(); // Llama a la función para probar la conexión

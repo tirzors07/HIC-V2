@@ -1,4 +1,4 @@
-import db from "../db.js";//conectar con la bd
+import db from "../database/db.js";//conectar con la bd
 import { DataTypes } from "sequelize";//tipe of datas for atributes in db
 
 const UserModel = db.define('user',{
