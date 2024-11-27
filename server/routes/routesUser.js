@@ -1,11 +1,11 @@
-import express from "express";//Se importa express para facilitar la comunicacion con el servidor
-import { getAllUsers, createUser, updateUser, getUser } from "../controllers/UserControllers.js";//obteniendo todos los controladores ya creados para ser usados
+import express from "express";//para facilitar conexion con el servidor
+import { getAllUsers, createUser, updateUser, getUser, loginUser } from "../controllers/UserControllers.js";
+import { resolveEnvPrefix } from "vite";
 const router = express.Router();
-//generacion de rutas para usa la api creada para interactuar con la base de datos
-//diferentes rutas a usar con las diferentes funcionalidades
-router.get('/', getAllUsers)
-router.get('/:id', getUser)
-router.post('/', createUser)
-router.put('/:id', updateUser)
 
+router.get('/', getAllUsers);
+router.post('/', createUser);
+router.put('/:user_id', updateUser);
+router.get('/:user_id', getUser);
+router.post('/login', loginUser);  // Ruta para login
 export default router;
