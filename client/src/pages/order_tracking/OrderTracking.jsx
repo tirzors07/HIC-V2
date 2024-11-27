@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Notification from './Notification';
+import Notification from '../notifications/Notification';
 
 const OrderTracking = () => {
   const [orderId, setOrderId] = useState('');

@@ -8,10 +8,8 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
 };
-
 export const createUser = async (req, res) => {
     const { name_, email, password_, matricula, role } = req.body;
-
     try {
         // Validación de datos según el rol
         if (role === "hic_admin") {
@@ -39,10 +37,8 @@ export const createUser = async (req, res) => {
         res.status(400).json({ message: "Error al crear el usuario: " + error.message });
     }
 };
-
 export const updateUser = async (req, res) => {
     const { user_id } = req.params;
-
     try {
         const [updated] = await UserModel.update(req.body, {
             where: { user_id },
@@ -61,10 +57,8 @@ export const updateUser = async (req, res) => {
         res.status(400).json({ message: "Error al actualizar el usuario: " + error.message });
     }
 };
-
 export const getUser = async (req, res) => {
     const { user_id } = req.params;
-
     try {
         const user = await UserModel.findOne({
             where: { user_id },

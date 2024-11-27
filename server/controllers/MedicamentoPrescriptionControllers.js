@@ -8,11 +8,9 @@ export const getAllMedicamentoPrescriptions = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 // Crear una nueva relación entre prescripción y medicamento
 export const createMedicamentoPrescription = async (req, res) => {
     const { prescription_id, medicamento_id } = req.body;
-
     try {
         const newRelation = await MedicamentoPrescriptionModel.create({
             prescription_id,
@@ -27,7 +25,6 @@ export const createMedicamentoPrescription = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
 // Eliminar una relación específica
 export const deleteMedicamentoPrescription = async (req, res) => {
     try {
