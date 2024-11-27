@@ -1,5 +1,4 @@
 import MedicamentoModel from "../models/MedicamentoModel.js";
-
 // Obtener todos los medicamentos
 export const getAllMedicamentos = async (req, res) => {
     try {
@@ -9,7 +8,6 @@ export const getAllMedicamentos = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 // Obtener un medicamento específico
 export const getMedicamento = async (req, res) => {
     try {
@@ -26,7 +24,6 @@ export const getMedicamento = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 // Crear un nuevo medicamento
 export const createMedicamento = async (req, res) => {
     const { nombre, flavor, dosis, frecuencia } = req.body;
@@ -47,7 +44,6 @@ export const createMedicamento = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
 // Actualizar un medicamento
 export const updateMedicamento = async (req, res) => {
     try {
@@ -70,7 +66,6 @@ export const updateMedicamento = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
-
 // Eliminar un medicamento
 export const deleteMedicamento = async (req, res) => {
     try {
