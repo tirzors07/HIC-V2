@@ -11,6 +11,10 @@ const Login = () => {
     const [contraseña, setContraseña] = useState('');
     const [user, setUsers] = useState([]);
 
+    const navigateRegister = () => {
+        navigate(`/register`);
+    }
+
     useEffect(() => {
         getUsers();
     }, [])
@@ -41,13 +45,15 @@ const Login = () => {
             
 
             if (response.status === 200) {
+                const userData = response.data.user;
+                localStorage.setItem("usuarioActual", JSON.stringify(userData))
                 alert("Login exitoso");
-                navigate('/dashboard'); // Redirige al dashboard o página principal
             }
         } catch (error) {
-            alert("Correo o contraseña incorrectos!!");
+            alert("Correo o contraseña incorrectos");
             console.error(error);
         }
+        navigate("/");
     };
 
     return (
@@ -69,7 +75,7 @@ const Login = () => {
                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 bg-white text-black"/>
                 <input type="submit" className="btn-login w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition my-2" value="Iniciar Sesión" />
             </form>
-            <div className="btn-register w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition">
+            <div className="btn-register w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition" onClick={navigateRegister}>
                 Regístrate
             </div>
         </div>

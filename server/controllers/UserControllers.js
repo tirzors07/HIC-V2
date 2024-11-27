@@ -29,9 +29,11 @@ export const createUser = async (req, res) => {
         }
 
         const newUser = await UserModel.create({ name_, email, password_, matricula, role });
-        res.status(201).json({
-            message: "Usuario registrado exitosamente.",
+        res.status(200).json({
+            success: true,
+            message: "Usuario registrado exitosamente",
             user: newUser,
+            current_matricula: matricula
         });
     } catch (error) {
         res.status(400).json({ message: "Error al crear el usuario: " + error.message });
