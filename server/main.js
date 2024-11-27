@@ -1,23 +1,25 @@
-// main.js
-import Express from 'express';
+import express from 'express';
 import cors from 'cors';
-import db from './database/db.js'; // Importa db
-import testConnection from './database/testConnection.js'; // Importa la función de prueba
-import userRoutes from "./routes/routesUser.js"
+import db from './database/db.js';  // Configuración de la base de datos
+import userRoutes from './routes/routesUser.js';  // Importa las rutas de usuario
+const app = express();
 
-const app = Express();
 app.use(cors());
-app.use(Express.json());
-app.use("/users", userRoutes);
+app.use(cors({
+    origin: 'http://localhost:5173'  // Asegúrate de que el frontend esté permitido
+}));
+app.use(express.json());  // Para manejar solicitudes JSON
+app.use('/user',userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
 
-// Probar la conexión a la base de datos
-const startApp = async () => {
-    await testConnection(); // Llama a la función para probar la conexión
-    // Aquí puedes continuar con la configuración del servidor y otras funcionalidades
+try {
+    await db.authenticate();
+    console.log('Conexión a la base de datos establecida correctamente.');
+} catch (error) {
+    console.error('No se pudo conectar a la base de datos:', error);
+}
 
-    const PORT = process.env.PORT || 3001; // Puerto para el servidor backend
-    app.listen(PORT, () => {
-        console.log(`Servidor corriendo en el puerto ${PORT}`);
-    });
-};
-startApp(); // Inicia la aplicación
+//const PORT = process.env.PORT || 3000;
+
+app.listen(3000, () => {
+    console.log(`Servidor corriendo en el puerto 3000`);
+});
