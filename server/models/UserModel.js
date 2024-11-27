@@ -1,40 +1,42 @@
-import db from "../database/db.js";//conectar con la bd
-import { DataTypes } from "sequelize";//tipe of datas for atributes in db
+import db from "../database/db.js"; // Conexión a la base de datos
+import { DataTypes, Sequelize } from "sequelize"; // Asegúrate de importar Sequelize
 
-const UserModel = db.define('user',{
-    /*user_id: {
-        type: DataTypes.INT,
+const UserModel = db.define('users', {
+    user_id: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-    },*/
+    },
     name_: {
-        type: DataTypes.STRING(50),
-        allowNull:false,
+        type: DataTypes.STRING,
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING(40),
         allowNull: false,
-        unique:true,
-    }, 
+    },
     password_: {
-        type: DataTypes.STRING(20),
-        allowNull: true,
+        type: DataTypes.STRING(255),
+        allowNull: false,
     },
     matricula: {
         type: DataTypes.STRING(20),
         allowNull: true,
     },
     role: {
-        type: DataTypes.ENUM('general','hic_admin'),
-        allowNull: true,
-        defaultValue:'general',
+        type: DataTypes.ENUM('general', 'hic_admin'),
+        defaultValue: 'general', // Por defecto, los nuevos usuarios son generales
     },
-    created_at: {
+    createdAt: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
-        allowNull:false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'), // Usa Sequelize.literal para obtener el timestamp actual
     },
+    updatedAt: {
+        type: DataTypes.DATE,
+        onUpdate: Sequelize.literal('CURRENT_TIMESTAMP'), // Se actualiza automáticamente cuando se hace un update
+    }
 }, {
-    timestamps:false,
+    timestamps: true, // Esto habilita los campos createdAt y updatedAt
 });
+
 export default UserModel;
