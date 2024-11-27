@@ -48,3 +48,17 @@ button.remove {
   margin-top: 10px; /* Espacio entre la imagen y el botón de eliminar */
   background-color: #eb3d3d; /* Color del boton de eliminar */
 }
+.appContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.title {
+  margin: 10px 0;
+}
