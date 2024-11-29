@@ -8,6 +8,7 @@ const API_BASE_URL = "http://localhost:3001"; // Base de la API
 export const PharmacyContextProvider = (props) => {
   const [logged, setLogged] = useState(false); // Estado para saber si hay un usuario logueado
   const [userRole, setUserRole] = useState(null); // Rol del usuario (e.g., "general", "hic_admin")
+  const [user, setUser] = useState(null); //Usuario loggeado
   const [prescriptions, setPrescriptions] = useState([]); // Lista de recetas médicas subidas
   const [orderStatus, setOrderStatus] = useState([]); // Estado de pedidos de medicamentos
 
@@ -19,9 +20,10 @@ export const PharmacyContextProvider = (props) => {
   }, [logged]);
 
   // Cambiar estado de sesión
-  const login = (role) => {
+  const login = async(role, userData) => {
     setLogged(true);
     setUserRole(role);
+    setUser(userData);
   };
 
   const logout = () => {

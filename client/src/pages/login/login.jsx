@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios"; 
+import { PharmacyContext } from "../../context/pharmacy-context";
 
 const URI = 'http://localhost:3000/user';  // Ruta del backend
 
@@ -45,15 +46,15 @@ const Login = () => {
             
 
             if (response.status === 200) {
-                const userData = response.data.user;
-                localStorage.setItem("usuarioActual", JSON.stringify(userData))
+                const currentUser = response.data.user;
+                localStorage.setItem("usuarioActual", JSON.stringify(currentUser));
                 alert("Login exitoso");
             }
         } catch (error) {
             alert("Correo o contraseña incorrectos");
             console.error(error);
         }
-        navigate("/");
+        setTimeout(() => navigate("/"), 100);
     };
 
     return (
