@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import './login.css'; 
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios"; 
 
 const URI = 'http://localhost:3000/user';  // Ruta del backend
 
 const Login = () => {
-    const navigate = useNavigate();
-    
-    const navigateRegister = () => {
-        navigate(`/register`);
-    }
 
+    const navigate = useNavigate();
     const [correo, setCorreo] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [user, setUsers] = useState([]);
+
+    const navigateRegister = () => {
+        navigate(`/register`);
+    }
 
     useEffect(() => {
         getUsers();
@@ -46,18 +45,20 @@ const Login = () => {
             
 
             if (response.status === 200) {
+                const userData = response.data.user;
+                localStorage.setItem("usuarioActual", JSON.stringify(userData))
                 alert("Login exitoso");
-                navigate('/dashboard'); // Redirige al dashboard o página principal
             }
         } catch (error) {
-            alert("Correo o contraseña incorrectos!!");
+            alert("Correo o contraseña incorrectos");
             console.error(error);
         }
+        navigate("/");
     };
 
     return (
-        <div className="login-form">
-            <h2>Login</h2>
+        <div className="login-form max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
             <form onSubmit={(e) => {
                 e.preventDefault();
                 loginUser();  // Llamar a la función loginUser
@@ -65,14 +66,16 @@ const Login = () => {
                 <input
                     value={correo}
                     onChange={(e) => setCorreo(e.target.value)}
-                    type="email" name="email" id="email" placeholder="Correo electrónico" />
+                    type="email" name="email" id="email" placeholder="Ingrese su correo electrónico" 
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 bg-white my-2 text-black"/>
                 <input
                     value={contraseña}
                     onChange={(e) => setContraseña(e.target.value)}
-                    type="password" name="password" id="password" placeholder="Contraseña" />
-                <input type="submit" className="btn-login" value="Login" />
+                    type="password" name="password" id="password" placeholder="Ingrese su contraseña"
+                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 bg-white text-black"/>
+                <input type="submit" className="btn-login w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition my-2" value="Iniciar Sesión" />
             </form>
-            <div className="btn-register" onClick={navigateRegister}>
+            <div className="btn-register w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition" onClick={navigateRegister}>
                 Regístrate
             </div>
         </div>
