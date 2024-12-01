@@ -1,7 +1,11 @@
+// main.js
 import express from 'express';
 import cors from 'cors';
 import db from './database/db.js';  // Configuración de la base de datos
 import userRoutes from './routes/routesUser.js';  // Importa las rutas de usuario
+import orderRoutes from "./routes/orderRoutes.js" //Rutas de orden
+import { UserModel, OrderModel } from "./database/associations.js";
+
 const app = express();
 
 app.use(cors());
@@ -9,11 +13,16 @@ app.use(cors({
     origin: 'http://localhost:5173'  // Asegúrate de que el frontend esté permitido
 }));
 app.use(express.json());  // Para manejar solicitudes JSON
-app.use('/user',userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
+app.use('/user', userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
+app.use('/order', orderRoutes);
 
 try {
     await db.authenticate();
     console.log('Conexión a la base de datos establecida correctamente.');
+
+    await db.sync({force: false});
+    console.log("Base de datos sincronizada con los modelos");
+    
 } catch (error) {
     console.error('No se pudo conectar a la base de datos:', error);
 }

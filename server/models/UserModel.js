@@ -1,5 +1,6 @@
 import db from "../database/db.js"; // Conexión a la base de datos
 import { DataTypes, Sequelize } from "sequelize"; // Asegúrate de importar Sequelize
+import OrderModel from "./OrderModel.js"
 
 const UserModel = db.define('users', {
     user_id: {

@@ -4,8 +4,8 @@ import { resolveEnvPrefix } from "vite";
 const router = express.Router();
 
 router.get('/', getAllUsers);
-router.post('/', createUser);
-router.put('/:user_id', updateUser);
+router.post('/register', createUser);
+router.put('/update/:user_id', updateUser);
 router.get('/:user_id', getUser);
 router.post('/login', loginUser);  // Ruta para login
 export default router;
