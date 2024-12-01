@@ -39,6 +39,7 @@ export const createUser = async (req, res) => {
         res.status(400).json({ message: "Error al crear el usuario: " + error.message });
     }
 };
+
 export const updateUser = async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -50,7 +51,14 @@ export const updateUser = async (req, res) => {
             const updatedUser = await UserModel.findOne({ where: { user_id } });
             res.status(200).json({
                 message: "Usuario actualizado exitosamente.",
-                user: updatedUser,
+                user: {
+                    user_id: updatedUser.user_id,
+                    name_: updatedUser.name_,
+                    email: updatedUser.email,
+                    role: updatedUser.role,
+                    password_: updatedUser.password_,
+                    matricula: updatedUser.matricula
+                }
             });
         } else {
             res.status(404).json({ message: "Usuario no encontrado." });
@@ -59,6 +67,7 @@ export const updateUser = async (req, res) => {
         res.status(400).json({ message: "Error al actualizar el usuario: " + error.message });
     }
 };
+
 export const getUser = async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -89,10 +98,12 @@ export const loginUser = async (req, res) => {
             res.status(200).json({
                 message: "Login exitoso",
                 user: {
-                    id: user.user_id,
-                    name: user.name_,
+                    user_id: user.user_id,
+                    name_: user.name_,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    password_: user.password_,
+                    matricula: user.matricula
                 }
             });
         } else {

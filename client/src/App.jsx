@@ -57,7 +57,7 @@ const App = () => {
             <button
               onClick={handleUserButton} 
               className="text-white bg-blue-500 rounded-2xl px-3 py-1 hover:bg-blue-700">
-              {currentUser ? `Hola ${currentUser.name}` : 'Acceder'}
+              {currentUser ? `Hola ${currentUser.name_}` : 'Iniciar Sesión'}
             </button>
             {isMenuOpen && currentUser && (
               <div className="absolute right-0 mt-2 w-48 bg-blue-500 border border-gray-300 rounded-lg shadow-lg z-50">
