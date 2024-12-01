@@ -1,3 +1,4 @@
+// main.js
 import express from 'express';
 import cors from 'cors';
 import db from './database/db.js';  // Configuración de la base de datos
