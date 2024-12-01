@@ -24,12 +24,17 @@ export const getOneOrder = async (req, res) => {
                     order: {
                         order_id: order.order_id,
                         username: order_user.name_,
+                        user_id: order.user_id,
                         state: order.state,
                         order_date: order.order_date,
                         delivery_schedule: order.delivery_schedule,
                     }
                 });
             }
+        } else{
+            res.status(200).json({
+                success: false,
+            })
         }
     } catch(error){
         res.status(400).json({

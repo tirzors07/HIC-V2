@@ -5,7 +5,8 @@ import HomePage from './pages/HomePage';
 import { Navbar } from "./components/navbar.jsx";
 import SeguimientoPedido from './pages/order_tracking/SeguimientoPedido.jsx'; 
 import UploadComponent from "./pages/request_order/UploadComponent.jsx";
-import Login from "./pages/login/login"; // Importas solo el componente Login
+import Login from "./pages/login/login"; // Login para administradores
+import LoginGeneral from "./pages/login/login_general.jsx" //Login para usuarios generales
 import Register from "./pages/register/registrar_usuario_general.jsx" //Importacion de pagina de registro
 import UserProfile from "./pages/user_profile/user_profile.jsx"
 import HistorialOrdenes from "./pages/historial_ordenes/historial_ordenes.jsx";
@@ -24,7 +25,7 @@ const App = () => {
 
   const handleUserButton = () => {
     if(currentUser === null){
-      window.location.href = "/login";
+      window.location.href = "/login_g";
     } else {
       setIsMenuOpen( (prev) => !prev );
     }
@@ -92,6 +93,7 @@ const App = () => {
             <Route path="/cargar-receta" element={<UploadComponent />} />
             <Route path="/seguimiento-pedido" element={<SeguimientoPedido />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/login_g" element={<LoginGeneral />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/user-orders" element={<HistorialOrdenes />} />

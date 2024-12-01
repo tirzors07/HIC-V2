@@ -4,13 +4,13 @@ import axios from "axios";
 
 const URI = 'http://localhost:3000/user';  // Ruta del backend
 
-const Login = () => {
+const LoginGeneral = () => {
 
     const navigate = useNavigate();
     const [correo, setCorreo] = useState('');
-    const [contraseña, setContraseña] = useState('');
+    const [matricula, setMatricula] = useState('');
     const [user, setUsers] = useState([]);
-    const [activeButton, setActiveButton] = useState("admin");
+    const [activeButton, setActiveButton] = useState("general");
 
     const navigateRegister = () => {
         navigate(`/register`);
@@ -41,10 +41,11 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:3000/user/login', {
                 email: correo,
-                password: contraseña,
-                rol: "admin"
+                password: matricula,
+                rol: "general"
             });
             
+
             if (response.status === 200) {
                 const currentUser = response.data.user;
                 localStorage.setItem("usuarioActual", JSON.stringify(currentUser));
@@ -88,9 +89,9 @@ const Login = () => {
                     type="email" name="email" id="email" placeholder="Ingrese su correo electrónico" 
                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 bg-white my-2 text-black"/>
                 <input
-                    value={contraseña}
-                    onChange={(e) => setContraseña(e.target.value)}
-                    type="password" name="password" id="password" placeholder="Ingrese su contraseña"
+                    value={matricula}
+                    onChange={(e) => setMatricula(e.target.value)}
+                    type="password" name="password" id="password" placeholder="Ingrese su matricula"
                     className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 bg-white text-black"/>
                 <input type="submit" className="btn-login w-full bg-blue-500 text-white py-2 px-2 rounded-md hover:bg-blue-600 transition my-2" value="Iniciar Sesión" />
             </form>
@@ -101,4 +102,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginGeneral;
