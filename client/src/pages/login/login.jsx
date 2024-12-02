@@ -10,6 +10,7 @@ const Login = () => {
     const [correo, setCorreo] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [user, setUsers] = useState([]);
+    const [activeButton, setActiveButton] = useState("admin");
 
     const navigateRegister = () => {
         navigate(`/register`);
@@ -40,25 +41,43 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:3000/user/login', {
                 email: correo,
-                password: contraseña
+                password: contraseña,
+                rol: "admin"
             });
             
-
             if (response.status === 200) {
-                const userData = response.data.user;
-                localStorage.setItem("usuarioActual", JSON.stringify(userData))
+                const currentUser = response.data.user;
+                localStorage.setItem("usuarioActual", JSON.stringify(currentUser));
                 alert("Login exitoso");
             }
         } catch (error) {
             alert("Correo o contraseña incorrectos");
             console.error(error);
         }
-        navigate("/");
+        setTimeout(() => navigate("/"), 100);
+    };
+
+    const handleTypeOfUser = () => {
+        if(activeButton==="general"){
+            setActiveButton("admin");
+            navigate("/login");
+        } else if(activeButton==="admin"){
+            setActiveButton("general");
+            navigate("/login_g");
+        }
     };
 
     return (
         <div className="login-form max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
+            <div className="double-button-container flex justify-center mb-4">
+                <label className="text-black py-2">Tipo de usuario:</label>
+                <button
+                    onClick={handleTypeOfUser}
+                    className={`px-4 py-2 mx-2 ${activeButton === 'general' ? 'bg-blue-500 text-white' : 'bg-gray-300 text-black'}`}>
+                    {activeButton==="general" ? "General" : "Administrador"}
+                </button>
+            </div>
             <form onSubmit={(e) => {
                 e.preventDefault();
                 loginUser();  // Llamar a la función loginUser
