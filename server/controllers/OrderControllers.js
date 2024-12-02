@@ -4,10 +4,22 @@ import UserModel from "../models/UserModel.js";
 // Obtener todos los pedidos
 export const getAllOrders = async (req, res) => {
     try {
-        const orders = await OrderModel.findAll();
-        res.json(orders);
+        const{ page = 1, limit = 10 } = req.query;
+        const offset = (page - 1)*limit;
+
+        const orders = await OrderModel.findAndCountAll({ 
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+
+        res.status(200).json({
+            orders: orders.rows,
+            total: orders.count,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(orders.count/limit)
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
 };
 
@@ -71,14 +83,15 @@ export const createOrder = async (req, res) => {
 };
 // Actualizar el estado de un pedido
 export const updateOrder = async (req, res) => {
+    const { order_id } = req.params;
     try {
         const [updated] = await OrderModel.update(req.body, {
-            where: { order_id: req.params.id },
+            where: { order_id },
         });
 
         if (updated) {
             const updatedOrder = await OrderModel.findOne({
-                where: { order_id: req.params.id },
+                where: { order_id },
             });
             res.status(200).json({
                 message: "Pedido actualizado",

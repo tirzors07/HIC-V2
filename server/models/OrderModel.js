@@ -13,7 +13,7 @@ const OrderModel = db.define('order', {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     state: {
-        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada'),
+        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada', 'Cancelada'),
         defaultValue: 'En Proceso',
     },
     user_id: {
