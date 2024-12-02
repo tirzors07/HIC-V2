@@ -16,10 +16,6 @@ const Login = () => {
         navigate(`/register`);
     }
 
-    const navigateRegister = () => {
-        navigate(`/register`);
-    }
-
     useEffect(() => {
         getUsers();
     }, [])
@@ -50,22 +46,14 @@ const Login = () => {
             });
             
             if (response.status === 200) {
-<<<<<<< HEAD
-                const userData = response.data.user;
-                localStorage.setItem("usuarioActual", JSON.stringify(userData))
-=======
                 const currentUser = response.data.user;
                 localStorage.setItem("usuarioActual", JSON.stringify(currentUser));
->>>>>>> 923ba6533f5e17b618d4d7d9644d003d21a31a1d
                 alert("Login exitoso");
             }
         } catch (error) {
             alert("Correo o contraseña incorrectos");
             console.error(error);
         }
-<<<<<<< HEAD
-        navigate("/");
-=======
         setTimeout(() => navigate("/"), 100);
     };
 
@@ -77,14 +65,11 @@ const Login = () => {
             setActiveButton("general");
             navigate("/login_g");
         }
->>>>>>> 923ba6533f5e17b618d4d7d9644d003d21a31a1d
     };
 
     return (
         <div className="login-form max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
             <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
-<<<<<<< HEAD
-=======
             <div className="double-button-container flex justify-center mb-4">
                 <label className="text-black py-2">Tipo de usuario:</label>
                 <button
@@ -93,7 +78,6 @@ const Login = () => {
                     {activeButton==="general" ? "General" : "Administrador"}
                 </button>
             </div>
->>>>>>> 923ba6533f5e17b618d4d7d9644d003d21a31a1d
             <form onSubmit={(e) => {
                 e.preventDefault();
                 loginUser();  // Llamar a la función loginUser

@@ -1,13 +1,12 @@
-import express from "express";//para facilitar conexion con el servidor
-import { getAllOrders, getOneOrder, createOrder, updateOrder, deleteOrder } from "../controllers/OrderControllers.js";
-import { resolveEnvPrefix } from "vite";
+import express from 'express';
+import { createOrder, getAllOrders, getOneOrder, updateOrder, deleteOrder } from "../controllers/OrderControllers.js";
 
 const router = express.Router();
 
-router.get('/get_orders', getAllOrders);
-router.get("/find_order/:order_id", getOneOrder);
-router.post('/new_order', createOrder);
-router.put('/update_order/:order_id', updateOrder);
-router.get('/delete_order/:user_id', deleteOrder);
+router.post('/order', createOrder);
+router.get('/', getAllOrders);
+router.get('/:order_id', getOneOrder);
+router.put('/:id', updateOrder);
+router.delete('/:id', deleteOrder);
 
 export default router;

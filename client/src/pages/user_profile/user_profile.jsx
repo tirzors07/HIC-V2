@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-const UserProfile = () => {
-
-    return(
-        <h1>USER PROFILE AND DATA</h1>
-    )
-=======
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios"; 
@@ -112,7 +105,6 @@ const UserProfile = () => {
         </div>
         
     );
->>>>>>> 923ba6533f5e17b618d4d7d9644d003d21a31a1d
 };
 
 export default UserProfile;
