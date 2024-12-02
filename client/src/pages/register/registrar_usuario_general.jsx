@@ -32,7 +32,7 @@ const Register = () =>{
             alert("Creacion de usuario fallida");
             console.error("Error durante creación de usuario: ", error);
         }
-        navigate("/login");
+        navigate("/login_g");
     };
 
     return (

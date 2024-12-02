@@ -72,19 +72,19 @@ const App = () => {
               <div className="absolute right-0 mt-2 w-48 bg-blue-500 border border-gray-300 rounded-lg shadow-lg z-50">
                 <ul>
                   <li
-                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-lg"
                     onClick={()=> handleMenuOption("profile")}
                     >
                       Ver Perfil
                     </li>
                     <li
-                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-lg"
                     onClick={()=> handleMenuOption("orders")}
                     >
                       Historial de Ordenes
                     </li>
                     <li
-                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer"
+                    className="px-4 py-2 hover:bg-blue-700 cursor-pointer rounded-lg"
                     onClick={()=> handleMenuOption("logout")}
                     >
                       Cerrar Sesión

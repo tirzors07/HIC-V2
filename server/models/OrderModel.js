@@ -1,6 +1,6 @@
 import db from "../database/db.js";
-import UserModel from "./UserModel.js"
 import { DataTypes, Sequelize } from "sequelize";
+import UserModel from "./UserModel.js"
 
 const OrderModel = db.define('order', {
     order_id: {
@@ -13,7 +13,7 @@ const OrderModel = db.define('order', {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     state: {
-        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada'),
+        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada', 'Cancelada'),
         defaultValue: 'En Proceso',
     },
     user_id: {
