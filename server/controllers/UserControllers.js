@@ -2,8 +2,20 @@ import UserModel from "../models/UserModel.js";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const user = await UserModel.findAll(); // Trae todos los usuarios
-        res.status(200).json(user);
+        const{ page = 1, limit = 10 } = req.query;
+        const offset = (page - 1)*limit;
+        
+        const users = await UserModel.findAndCountAll({ // Trae todos los usuarios
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+
+        res.status(200).json({
+            users: users.rows,
+            total: users.count,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(users.count/limit)
+        });
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }

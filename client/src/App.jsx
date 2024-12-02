@@ -98,7 +98,6 @@ const App = () => {
         <main className="flex-grow container w-screen p-4">
           <Routes>
             <Route path="/" element={<HomePage />} /> 
-            <Route path="/admin" element={<HomePageAdmin />} />
             <Route path="/ver_usuarios" element={<VerUsuarios />} />
             <Route path="/ver_ordenes" element={<VerOrdenes />} />
             <Route path="/cargar-receta" element={<UploadComponent />} />
