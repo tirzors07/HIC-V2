@@ -110,7 +110,7 @@ const App = () => {
         </main>
 
         <footer className="bg-gray-200 text-center p-4 w-screen">
-          <p>&copy; 2024 Farmacia Online. Todos los derechos reservados.</p>
+          <p>&copy; 2024 Farmacia Online. Todos los derechos reservados</p>
         </footer>
       </div>
     </Router>
