@@ -64,47 +64,6 @@ export const getOneOrder = async (req, res) => {
         });
     }
 };
-// Crear un nuevo pedido
-/*export const createOrder = async (req, res) => {
-    const { user_id, flavor, image_url, image_format, image_size,prescription_id } = req.body;
-    try {
-        // Verificar si el user_id existe
-        const userExists = await UserModel.findByPk(user_id);
-        if (!userExists) {
-            return res.status(404).json({ message: "El usuario no existe" });
-        }
-
-        // Crear receta
-        const newPrescription = await PrescriptionModel.create({
-            user_id,
-            image_url,
-            image_format,
-            image_size,
-        });
-
-        // Crear pedido sin nombre de medicamento
-        const newOrder = await OrderModel.create({
-            user_id,
-            prescription_id: newPrescription.prescription_id,
-            state: 'Confirmed', // Estado inicial
-        });
-
-        res.status(201).json({
-            message: "Pedido creado exitosamente",
-            order: {
-                order_id: newOrder.order_id,
-                user_id: newOrder.user_id,
-                prescription_id: newOrder.prescription_id,
-                state: newOrder.state,
-                order_date: newOrder.order_date,
-                delivery_schedule: newOrder.delivery_schedule,
-            },
-        });
-    } catch (error) {
-        console.error("Error al crear la orden:", error);
-        res.status(400).json({ message: error.message });
-    }
-};*/
 export const createOrder = async (req, res) => {
     const { user_id, prescription_id } = req.body; // ahora debes incluir prescription_id en el body
 
