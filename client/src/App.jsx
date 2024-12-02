@@ -86,7 +86,6 @@ const App = () => {
             )}
           </div>
         </header>
-        <Navbar />
         <main className="flex-grow container w-screen p-4">
           <Routes>
             <Route path="/" element={<HomePage />} /> 
