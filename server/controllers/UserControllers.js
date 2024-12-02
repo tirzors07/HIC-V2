@@ -4,7 +4,7 @@ export const getAllUsers = async (req, res) => {
     try {
         const{ page = 1, limit = 10 } = req.query;
         const offset = (page - 1)*limit;
-        
+
         const users = await UserModel.findAndCountAll({ // Trae todos los usuarios
             limit: parseInt(limit),
             offset: parseInt(offset),
@@ -20,6 +20,7 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
 };
+
 export const createUser = async (req, res) => {
     const { name_, email, password_, matricula, role } = req.body;
     try {
@@ -52,7 +53,7 @@ export const createUser = async (req, res) => {
     }
 };
 
-export const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => { 
     const { user_id } = req.params;
     try {
         const [updated] = await UserModel.update(req.body, {
@@ -84,11 +85,15 @@ export const getUser = async (req, res) => {
     const { user_id } = req.params;
     try {
         const user = await UserModel.findOne({
-            where: { user_id },
+            where: { user_id:user_id },
         });
 
         if (user) {
-            res.status(200).json(user);
+            res.status(200).json({
+                user: {
+                    name_: user.name_
+                }
+            });
         } else {
             res.status(404).json({ message: "Usuario no encontrado." });
         }

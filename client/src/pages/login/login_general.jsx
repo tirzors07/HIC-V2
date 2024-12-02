@@ -55,7 +55,8 @@ const LoginGeneral = () => {
             alert("Correo o contraseña incorrectos");
             console.error(error);
         }
-        setTimeout(() => navigate("/"), 100);
+        navigate("/", {replace: true});
+        window.location.reload("/");
     };
 
     const handleTypeOfUser = () => {
