@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Notification from '../notifications/Notification';
 
@@ -7,12 +7,24 @@ const OrderTracking = () => {
   const [orderMsgOpen, setOrderMsg] = useState(false);
   const [orderData, setOrderData] = useState(null);
 
+  //Datos de usuario para corroborar ID
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect( () => {
+      const user = JSON.parse(localStorage.getItem("usuarioActual"));
+      setCurrentUser(user);
+  }, [] );
+
   const handleTrackOrder = async() => {
     try{
       const response = await axios.get(`http://localhost:3000/order/find_order/${order_id}`);
       if(response.data.success){
-        setOrderData(response.data.order);
-        setOrderMsg(true);
+        if(response.data.order.user_id === currentUser.user_id){
+          setOrderData(response.data.order);
+          setOrderMsg(true);
+        } else{
+          alert("No se enconctro una orden con el ID especificado");
+        }
       } else{
         alert("No se encontro una orden con el ID especificado");
       }
