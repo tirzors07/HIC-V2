@@ -1,11 +1,16 @@
 // main.js
+import path from 'path';
 import express from 'express';
 import cors from 'cors';
 import db from './database/db.js';  // Configuración de la base de datos
 import userRoutes from './routes/routesUser.js';  // Importa las rutas de usuario
 import orderRoutes from "./routes/orderRoutes.js" //Rutas de orden
 import messageRoutes from "./routes/messageRoutes.js";
-import { UserModel, OrderModel } from "./database/associations.js";
+import prescriptionsRoutes from "./routes/prescriptionsRoutes.js"
+import './database/associations.js';
+//import UserModel  from './models/UserModel.js'
+//import OrderModel from './models/OrderModel.js';  // Si usas export default
+
 
 const app = express();
 
@@ -13,10 +18,13 @@ app.use(cors());
 app.use(cors({
     origin: 'http://localhost:5173'  // Asegúrate de que el frontend esté permitido
 }));
+// Middleware para servir archivos estáticos desde la carpeta 'uploads'
+app.use('/uploads', express.static(path.resolve('server/uploads')));
 app.use(express.json());  // Para manejar solicitudes JSON
 app.use('/user', userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
 app.use('/order', orderRoutes);
 app.use("/message", messageRoutes);
+app.use('/prescriptions', prescriptionsRoutes);
 
 try {
     await db.authenticate();

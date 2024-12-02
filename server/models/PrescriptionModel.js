@@ -29,7 +29,5 @@ const PrescriptionModel = db.define('prescription', {
     },
 });
 
-// Relación con la tabla `user`
-PrescriptionModel.belongsTo(db.models.user, { foreignKey: 'user_id' });
 
 export default PrescriptionModel;

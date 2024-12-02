@@ -45,18 +45,47 @@ const UploadComponent = () => {
   };
 
   const handleUpload = async () => {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('image',file);
+    formData.append('user_id',currentUser.user_id);
     try {
-      const response = await axios.post('http://localhost:3000/order/new_order', {
-          user_id: currentUser.user_id,
+      setIsUploading(true);
+      const response = await axios.post('http://localhost:3000/prescriptions', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setProgress(percent);
+          },
+          //user_id: currentUser.user_id,
       });
-      if(response.status === 201){
-        alert(`Orden Creada con ID: ${response.data.order.order_id}`);
+      if (response.status === 201) {
+        alert(`Receta creada con ID: ${response.data.prescription.prescription_id}`);  // Aquí usamos prescription_id
+        setSuccess(true);
+        setImageUrl(`http://localhost:3000${response.data.prescription.image_url}`);
       }
       else if(response.status === 400){
-        alert("Error, la orden no pudo ser creada");
+        alert("Error, la receta no pudo ser procesada");
       }
-    } catch(error){
-      alert("Error, la orden no pudo ser creada");
+    } catch (error) {
+      console.error("Error en la carga:", error);
+    
+      if (error.response) {
+        // Respuesta con un error del servidor
+        alert(`Error del servidor: ${error.response.status} - ${error.response.data.message || "Orden no creada"}`);
+      } else if (error.request) {
+        // El servidor no respondió
+        alert("No se recibió respuesta del servidor. Verifica tu conexión.");
+      } else {
+        // Error en la configuración de la solicitud
+        alert(`Error en la configuración: ${error.message}`);
+      }
+    }
+     finally {
+      setIsUploading(false);
     }
   };
   
@@ -139,9 +168,10 @@ const UploadComponent = () => {
 
       {progress > 0 && <ProgressBar progress={progress} />}
       {success && (
-        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg flex items-center">
-          <CheckCircle className="mr-2" size={20} />
-          La receta ha sido cargada exitosamente.
+        <div
+          className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg flex items-center animate-fade-in">
+          <CheckCircle className="mr-2 animate-bounce" size={24} />
+          <span>La receta ha sido cargada exitosamente.</span>
         </div>
       )}
     </div>

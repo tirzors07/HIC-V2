@@ -2,7 +2,7 @@ import UserModel from "../models/UserModel.js";
 import OrderModel from "../models/OrderModel.js";
 import MessageModel from "../models/MessageModel.js";
 
-UserModel.hasOne(OrderModel, {
+UserModel.hasMany(OrderModel, {
     foreignKey: "user_id"
 });
 

@@ -5,6 +5,6 @@ import './index.css';
 /* pri*/
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />  {/* Renderizamos el componente app */}
+    <App />
   </React.StrictMode>
 );
