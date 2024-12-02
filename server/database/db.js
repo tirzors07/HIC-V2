@@ -5,7 +5,7 @@ const db = new Sequelize('hic_db', 'mr_robot', 'hic-admin', {
     dialect: 'mariadb',
     port: 3306, // Asegúrate de que el puerto sea correcto
     dialectOptions: {
-        connectTimeout: 3000 // Tiempo de espera en milisegundos
+        connectTimeout: 30000 // Tiempo de espera en milisegundos
     }
 });
 
