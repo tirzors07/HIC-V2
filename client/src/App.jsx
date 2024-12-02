@@ -1,16 +1,24 @@
 import "./App.css";
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
-import HomePage from './pages/HomePage'; 
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate} from 'react-router-dom';
+import logo from './assets/logo.png'; 
 import { Navbar } from "./components/navbar.jsx";
+//Shared pages
+import UserProfile from "./pages/user_profile/user_profile.jsx"
+import HomePage from './pages/home/HomePage.jsx'; 
+
+//General user pages
+import HistorialOrdenes from "./pages/historial_ordenes/historial_ordenes.jsx";
+import Register from "./pages/register/registrar_usuario_general.jsx" //Importacion de pagina de registro
+import LoginGeneral from "./pages/login/login_general.jsx" //Login para usuarios generales
 import SeguimientoPedido from './pages/order_tracking/SeguimientoPedido.jsx'; 
 import UploadComponent from "./pages/request_order/UploadComponent.jsx";
+
+//Admin pages
 import Login from "./pages/login/login"; // Login para administradores
-import LoginGeneral from "./pages/login/login_general.jsx" //Login para usuarios generales
-import Register from "./pages/register/registrar_usuario_general.jsx" //Importacion de pagina de registro
-import UserProfile from "./pages/user_profile/user_profile.jsx"
-import HistorialOrdenes from "./pages/historial_ordenes/historial_ordenes.jsx";
-import logo from './assets/logo.png'; 
+import VerUsuarios from "./pages/admin_pages/VerUsuarios.jsx"
+import VerOrdenes from "./pages/admin_pages/VerOrdenes.jsx"
+
 import { PharmacyContextProvider } from "./context/pharmacy-context";
 
 const App = () => {
@@ -21,7 +29,7 @@ const App = () => {
   useEffect( () => {
       const user = JSON.parse(localStorage.getItem("usuarioActual"));
       setCurrentUser(user);
-  }, [] );
+  }, []);
 
   const handleUserButton = () => {
     if(currentUser === null){
@@ -90,6 +98,9 @@ const App = () => {
         <main className="flex-grow container w-screen p-4">
           <Routes>
             <Route path="/" element={<HomePage />} /> 
+            <Route path="/admin" element={<HomePageAdmin />} />
+            <Route path="/ver_usuarios" element={<VerUsuarios />} />
+            <Route path="/ver_ordenes" element={<VerOrdenes />} />
             <Route path="/cargar-receta" element={<UploadComponent />} />
             <Route path="/seguimiento-pedido" element={<SeguimientoPedido />} />
             <Route path="/login" element={<Login />} />
