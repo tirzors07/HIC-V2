@@ -43,135 +43,45 @@ export const getPrescription = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-// Crear una nueva receta
-/*export const createPrescription = async (req, res) => {
-    const { user_id, image_url, image_format, image_size } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    try {
-        // Validar que los datos necesarios estén presentes
-        if (!user_id || !image_url || !image_format || !image_size) {
-            return res.status(400).json({ message: "Faltan campos requeridos." });
-        }
-
-        // Validar formato de la imagen
-        const validFormats = ['JPEG', 'PNG', 'JPG'];
-        if (!validFormats.includes(image_format)) {
-            return res.status(400).json({ message: "Formato de imagen no válido." });
-        }
-
-        // Crear una nueva receta
-        const newPrescription = await PrescriptionModel.create({
-            user_id,
-            image_url: imageUrl,
-            image_format: req.file.mimetype,
-            image_size: req.file.size,
-        });
-
-        res.status(201).json({
-            message: "Receta creada",
-            prescription: newPrescription,
-        });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};*/
-// Crear una nueva receta
-/*export const createPrescription = async (req, res) => {
-    const { user_id } = req.body;
-
-    try {
-        // Validar que el archivo haya sido subido
-        if (!req.file) {
-            return res.status(400).json({ message: "No se ha subido ninguna imagen." });
-        }
-
-        // Validar que el user_id esté presente
-        if (!user_id) {
-            return res.status(400).json({ message: "Falta el ID del usuario." });
-        }
-
-        // Crear una nueva receta
-        const newPrescription = await PrescriptionModel.create({
-            user_id,
-            image_url: `/uploads/${req.file.filename}`, // Ruta de la imagen
-            image_format: req.file.mimetype.split('/')[1].toUpperCase(), // Extraer el formato
-            image_size: req.file.size, // Tamaño de la imagen
-        });
-
-        res.status(201).json({
-            message: "Receta creada",
-            prescription: newPrescription,
-        });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};*/
 export const createPrescription = async (req, res) => {
-    const { user_id, image_url, image_format, image_size } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    try {
-        if (!user_id || !image_url || !image_format || !image_size) {
-            return res.status(400).json({ message: "Faltan campos requeridos." });
-        }
-
-        const validFormats = ['JPEG', 'PNG', 'JPG'];
-        if (!validFormats.includes(image_format)) {
-            return res.status(400).json({ message: "Formato de imagen no válido." });
-        }
-
-        const newPrescription = await PrescriptionModel.create({
-            user_id,
-            image_url: imageUrl,
-            image_format: req.file.mimetype,
-            image_size: req.file.size,
-        });
-
-        res.status(201).json({
-            message: "Receta creada",
-            prescription: newPrescription,
-        });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
-// Crear una nueva receta con imagen
-/*export const createPrescription = async (req, res) => {
-    const { user_id } = req.body;
-
-    // Verificar si el usuario está presente en la base de datos
-    if (!user_id) {
-        return res.status(400).json({ message: "El campo user_id es obligatorio." });
-    }
-
-    // Si el archivo está presente, guardamos la URL de la imagen
-    if (req.file) {
-        // La imagen se guarda en una carpeta 'uploads' dentro del servidor
-        const imageUrl = `/uploads/${req.file.filename}`;
-
-        try {
-            // Crear la receta en la base de datos
-            const newPrescription = await PrescriptionModel.create({
-                user_id,
-                image_url: imageUrl,  // Guardamos la URL de la imagen
-                image_format: req.file.mimetype,  // Guardamos el formato de la imagen
-                image_size: req.file.size,  // Guardamos el tamaño de la imagen
-            });
-
-            // Responder con el éxito de la creación
-            res.status(201).json({
-                message: "Receta creada correctamente.",
-                prescription: newPrescription,
-            });
-        } catch (error) {
-            console.error("Error al crear la receta:", error);
-            res.status(500).json({ message: error.message });
-        }
-    } else {
+    // Verificamos si se subió la imagen
+    if (!req.file) {
         return res.status(400).json({ message: "No se ha subido ninguna imagen." });
     }
-};*/
+
+    const { user_id } = req.body;
+    const imageUrl = `/uploads/${req.file.filename}`; // La URL de la imagen
+
+    // Validamos los campos obligatorios
+    if (!user_id) {
+        return res.status(400).json({ message: "Falta el ID del usuario." });
+    }
+
+    // Validamos el formato de la imagen
+    const validFormats = ['image/jpeg', 'image/png'];
+    if (!validFormats.includes(req.file.mimetype)) {
+        return res.status(400).json({ message: "Formato de imagen no válido." });
+    }
+
+    try {
+        // Creamos la nueva receta
+        const newPrescription = await PrescriptionModel.create({
+            user_id,
+            image_url: imageUrl,  // Ruta de la imagen
+            image_format: req.file.mimetype,  // Formato de la imagen
+            image_size: req.file.size,  // Tamaño de la imagen
+        });
+
+        // Respondemos con éxito
+        res.status(201).json({
+            message: "Receta creada correctamente.",
+            prescription: newPrescription,
+        });
+    } catch (error) {
+        console.error("Error al crear la receta:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
 // Actualizar una receta existente
 export const updatePrescription = async (req, res) => {
     try {
