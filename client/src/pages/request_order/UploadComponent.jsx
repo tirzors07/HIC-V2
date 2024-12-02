@@ -139,9 +139,11 @@ const UploadComponent = () => {
 
       {progress > 0 && <ProgressBar progress={progress} />}
       {success && (
-        <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg flex items-center">
-          <CheckCircle className="mr-2" size={20} />
-          La receta ha sido cargada exitosamente.
+        <div
+          className="mt-4 p-4 bg-green-100 text-green-700 rounded-lg flex items-center animate-fade-in"
+        >
+          <CheckCircle className="mr-2 animate-bounce" size={24} />
+          <span>La receta ha sido cargada exitosamente.</span>
         </div>
       )}
     </div>
