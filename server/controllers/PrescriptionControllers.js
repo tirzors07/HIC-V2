@@ -45,39 +45,6 @@ export const getPrescription = async (req, res) => {
 };
 // Crear una nueva receta
 /*export const createPrescription = async (req, res) => {
-    const { user_id, image_url, image_format, image_size } = req.body;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    try {
-        // Validar que los datos necesarios estén presentes
-        if (!user_id || !image_url || !image_format || !image_size) {
-            return res.status(400).json({ message: "Faltan campos requeridos." });
-        }
-
-        // Validar formato de la imagen
-        const validFormats = ['JPEG', 'PNG', 'JPG'];
-        if (!validFormats.includes(image_format)) {
-            return res.status(400).json({ message: "Formato de imagen no válido." });
-        }
-
-        // Crear una nueva receta
-        const newPrescription = await PrescriptionModel.create({
-            user_id,
-            image_url: imageUrl,
-            image_format: req.file.mimetype,
-            image_size: req.file.size,
-        });
-
-        res.status(201).json({
-            message: "Receta creada",
-            prescription: newPrescription,
-        });
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};*/
-// Crear una nueva receta
-/*export const createPrescription = async (req, res) => {
     const { user_id } = req.body;
 
     try {

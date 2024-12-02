@@ -52,40 +52,6 @@ export const getOneOrder = async (req, res) => {
         });
     }
 };
-
-
-// Crear un nuevo pedido
-/*export const createOrder = async (req, res) => {
-    const { user_id } = req.body;
-    console.log("Datos recibidos para crear la orden:", req.body);
-    try {
-        // Verificar si el user_id existe en la base de datos
-        const userExists = await UserModel.findByPk(user_id);
-        if (!userExists) {
-            return res.status(404).json({ message: "El usuario no existe" });
-        }
-
-        console.log("Creando nueva orden...");
-        const newOrder = await OrderModel.create({
-            user_id
-        });
-
-        res.status(201).json({
-            message: "Pedido creado",
-            success: true,
-            order: {
-                order_id: newOrder.order_id,
-                order_date: newOrder.order_date,
-                state: newOrder.state,
-                user_id: newOrder.user_id,
-                delivery_schedule: newOrder.delivery_schedule
-            }
-        }); 
-    } catch (error) {
-        console.error("Error al crear la orden:", error);
-        res.status(400).json({ message: error.message });
-    }
-};*/
 // Crear un nuevo pedido
 /*export const createOrder = async (req, res) => {
     const { user_id, flavor, image_url, image_format, image_size,prescription_id } = req.body;
