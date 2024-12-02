@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; 
 import axios from "axios"; 
 
-const URI = 'http://localhost:3000/user';  // Ruta del backend
-
 const Register = () =>{
 
     const navigate = useNavigate();

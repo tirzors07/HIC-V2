@@ -6,6 +6,7 @@ import { Navbar } from "./components/navbar.jsx";
 //Shared pages
 import UserProfile from "./pages/user_profile/user_profile.jsx"
 import HomePage from './pages/home/HomePage.jsx'; 
+import Messages from "./pages/messages/messages.jsx";
 
 //General user pages
 import HistorialOrdenes from "./pages/historial_ordenes/historial_ordenes.jsx";
@@ -106,6 +107,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/user-orders" element={<HistorialOrdenes />} />
+            <Route path="/messages" element={<Messages />} />
           </Routes>
         </main>
 
