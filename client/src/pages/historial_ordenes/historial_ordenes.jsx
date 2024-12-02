@@ -101,14 +101,14 @@ const HistorialOrdenes = () => {
             <button
               onClick={() => setPage(prevPage => Math.max(prevPage - 1, 1))}
               disabled={page === 1}
-              className="p-2 bg-gray-300 rounded-md mx-2" >
+              className="p-2 bg-blue-500 hover:bg-blue-700 rounded-md mx-2" >
               Anterior
             </button>
             <span className="py-2">Página {page} de {totalPages}</span>
             <button
               onClick={() => setPage(prevPage => Math.max(prevPage + 1, totalPages))}
               disabled={page === totalPages}
-              className="p-2 bg-gray-300 rounded-md mx-2" >
+              className="p-2 bg-blue-500 hover:bg-blue-700 rounded-md mx-2" >
               Siguiente
             </button>
           </div>

@@ -83,14 +83,15 @@ export const createOrder = async (req, res) => {
 };
 // Actualizar el estado de un pedido
 export const updateOrder = async (req, res) => {
+    const { order_id } = req.params;
     try {
         const [updated] = await OrderModel.update(req.body, {
-            where: { order_id: req.params.id },
+            where: { order_id },
         });
 
         if (updated) {
             const updatedOrder = await OrderModel.findOne({
-                where: { order_id: req.params.id },
+                where: { order_id },
             });
             res.status(200).json({
                 message: "Pedido actualizado",

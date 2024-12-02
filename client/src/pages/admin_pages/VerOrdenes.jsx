@@ -9,6 +9,8 @@ const VerOrdenes = () => {
   const [search, setSearch] = useState("");
   const [foundOrder, setFoundOrder] = useState(null);
   const [orderMsgOpen, setOrderMsg] = useState(false);
+  const [updatedState, setUpdatedState] = useState("");
+  const [updatedDelivery, setUpdatedDelivery] = useState("");
 
   useEffect( () => {
     getOrders();
@@ -19,11 +21,25 @@ const VerOrdenes = () => {
       const response = await axios.get("http://localhost:3000/order/get_orders", {
         params: {page} 
       });
-      setOrders(response.data.orders);
+      const ordersWithNames = await Promise.all(response.data.orders.map(async (order) => {
+        const patientDetails = await getPatientName(order.user_id);
+        return {...order, patient_name: patientDetails ? patientDetails.user.name_ : "Desconocido"};
+      }));
+      setOrders(ordersWithNames);
       setTotalPages(response.data.totalPages);
     } catch(error){
       alert("No se pudo obtener la informacion de las ordenes");
       console.log("Error al obtener ordenes");
+    }
+  };
+
+  const getPatientName = async (userId) => {
+    try{
+      const response = await axios.get(`http://localhost:3000/user/get_user/${userId}`);
+      return response.data;
+    } catch(error){
+      console.error("Error al obtener nombre de usuario");
+      return null;
     }
   };
 
@@ -48,6 +64,30 @@ const VerOrdenes = () => {
     setOrderMsg(false);
   };
 
+  const handleUpdateOrder = (searchId) => {
+    const foundOrder = orders.find(order => order.order_id === searchId);
+    if(foundOrder){
+      setFoundOrder(foundOrder);
+      setOrderMsg(true);
+    }
+  };
+
+  const handleSaveChanges = async (order_id, order) => {
+    const updatedOrder = {
+      ...order,
+      state: updatedState,
+      delivery_schedule: new Date(updatedDelivery).toISOString()
+    };
+    try{
+      const response = await axios.put(`http://localhost:3000/order/update_order/${order_id}`, updatedOrder);
+      setOrderMsg(false);
+      window.location.reload();
+      alert("Orden actualizada");
+    } catch(error){
+      alert("Error al actualizar pedido");
+    }
+  };
+
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <h2 className="text-3xl font-bold mb-8">Lista de Ordenes en el Sistema</h2>
@@ -63,7 +103,7 @@ const VerOrdenes = () => {
             </input>
             <button
               type="submit"
-              className="ml-2 p-2 bg-blue-500 text-white, rounded-md">
+              className="ml-2 p-2 bg-blue-500 text-white rounded-md">
               Buscar
             </button>
         </form>
@@ -72,10 +112,15 @@ const VerOrdenes = () => {
           {orders.map((order) => (
             <li key={order.order_id} className="border-b last:border-0 p-2">
                 <p><strong>ID: </strong>{order.order_id}</p>
-                <p><strong>ID de Paciente: </strong>{order.user_id}</p>
+                <p><strong>Paciente: </strong>{order.patient_name}</p>
                 <p><strong>Estado: </strong>{order.state}</p>
                 <p><strong>Fecha de pedido: </strong>{order.order_date}</p>
                 <p><strong>Fecha de entrega: </strong>{order.delivery_schedule}</p>
+                <button
+                  onClick={ () => handleUpdateOrder(order.order_id) }
+                  className="ml-4 p-2 my-1 bg-green-600 text-white rounded-md hover:bg-green-800 transition">
+                  Actualizar Orden
+                </button>
             </li>
           ))}
         </ul>
@@ -84,14 +129,14 @@ const VerOrdenes = () => {
           <button
             onClick={() => setPage(prevPage => Math.max(prevPage - 1, 1))}
             disabled={page === 1}
-            className="p-2 bg-gray-300 rounded-md mx-2" >
+            className="p-2 bg-blue-500 hover:bg-blue-700 rounded-md mx-2" >
             Anterior
           </button>
           <span className="py-2">Página {page} de {totalPages}</span>
           <button
             onClick={() => setPage(prevPage => Math.max(prevPage + 1, totalPages))}
             disabled={page === totalPages}
-            className="p-2 bg-gray-300 rounded-md mx-2" >
+            className="p-2 bg-blue-500 hover:bg-blue-700 rounded-md mx-2" >
             Siguiente
           </button>
         </div>
@@ -110,11 +155,37 @@ const VerOrdenes = () => {
                   Detalles de la Oden:
                 </h3> 
                   <p><strong>ID: </strong>{foundOrder.order_id}</p>
-                  <p><strong>ID de Paciente: </strong>{foundOrder.user_id}</p>
-                  <p><strong>Estado: </strong>{foundOrder.state}</p>
+                  <p><strong>Paciente: </strong>{foundOrder.patient_name}</p>
+                  <p>
+                    <strong>Estado: </strong>
+                    <select
+                      value={updatedState}
+                      onChange={ (e) => setUpdatedState(e.target.value)}
+                      className="p-2 border-gray-300 rounded-md bg-white">
+                        <option value="En Proceso">En Proceso</option>
+                        <option value="Preparando">Preparando</option>
+                        <option value="Lista">Lista</option>
+                        <option value="Entregada">Entregada</option>
+                        <option value="Cancelada">Cancelada</option>
+                    </select>
+                  </p>
                   <p><strong>Fecha de pedido: </strong>{foundOrder.order_date}</p>
-                  <p><strong>Fecha de entrega: </strong>{foundOrder.delivery_schedule}</p>
-              </div> )} 
+                  <p className="my-2">
+                    <strong>Fecha de entrega: </strong>
+                      <input
+                        type="date"
+                        value={updatedDelivery}
+                        onChange={ (e) => setUpdatedDelivery(e.target.value)}
+                        className="p-2 border border-gray-300 rounded-md bg-white">
+                      </input>
+                  </p>
+                  <button
+                    onClick={ () => handleSaveChanges(foundOrder.order_id, foundOrder) }
+                    className="mt-4 p-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition">
+                    Guardar Cambios
+                  </button>
+              </div> 
+            )} 
             </div> 
           </div>
       )}
