@@ -4,7 +4,7 @@ export const getAllUsers = async (req, res) => {
     try {
         const{ page = 1, limit = 10 } = req.query;
         const offset = (page - 1)*limit;
-        
+
         const users = await UserModel.findAndCountAll({ // Trae todos los usuarios
             limit: parseInt(limit),
             offset: parseInt(offset),
@@ -20,6 +20,7 @@ export const getAllUsers = async (req, res) => {
         res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
 };
+
 export const createUser = async (req, res) => {
     const { name_, email, password_, matricula, role } = req.body;
     try {
