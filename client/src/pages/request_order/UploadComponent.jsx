@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ProgressBar from './ProgressBar';
 import { Upload, CheckCircle, AlertCircle } from 'lucide-react';
@@ -12,6 +12,14 @@ const UploadComponent = () => {
   const [uploadCancelToken, setUploadCancelToken] = useState(null);
   const [success, setSuccess] = useState(false);
   const [flavor, setFlavor] = useState("");
+
+  //Datos de usuario
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect( () => {
+      const user = JSON.parse(localStorage.getItem("usuarioActual"));
+      setCurrentUser(user);
+  }, [] );
 
 
   const handleFileChange = (e) => {
@@ -37,36 +45,18 @@ const UploadComponent = () => {
   };
 
   const handleUpload = async () => {
-    if (!selectedFile) {
-      setUploadStatus('Por favor, selecciona un archivo antes de subir.');
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('user_id', userId);
-    formData.append('image_format', selectedFile.type.split('/')[1].toUpperCase());
-    formData.append('image_size', selectedFile.size);
-    formData.append('flavor', flavor);
-  
     try {
-      // Cambia 'localhost' por tu IP pública o Elastic IP
-      const response = await axios.post('http://54.227.188.123:5000/upload-prescription', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await axios.post('http://localhost:3000/order/new_order', {
+          user_id: currentUser.user_id,
       });
-      setUploadStatus('Receta subida exitosamente: ' + response.data.image_url);
-  
-      // Crear pedido con el ID de la receta recién subida
-      await axios.post('http://54.227.188.123:5000/create-order', {
-        user_id: userId,
-        prescription_id: response.data.prescription_id,
-        flavor,
-        delivery_schedule: new Date().toISOString(),
-      });
-      setUploadStatus('Pedido creado exitosamente.');
-    } catch (error) {
-      console.error('Error al subir el archivo o crear el pedido:', error);
-      setUploadStatus('Hubo un error al subir la receta o crear el pedido.');
+      if(response.status === 201){
+        alert(`Orden Creada con ID: ${response.data.order.order_id}`);
+      }
+      else if(response.status === 400){
+        alert("Error, la orden no pudo ser creada");
+      }
+    } catch(error){
+      alert("Error, la orden no pudo ser creada");
     }
   };
   

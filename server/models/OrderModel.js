@@ -1,5 +1,6 @@
 import db from "../database/db.js";
-import { DataTypes } from "sequelize";
+import UserModel from "./UserModel.js"
+import { DataTypes, Sequelize } from "sequelize";
 
 const OrderModel = db.define('order', {
     order_id: {
@@ -9,28 +10,23 @@ const OrderModel = db.define('order', {
     },
     order_date: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     state: {
-        type: DataTypes.ENUM('Confirmed', 'Processing', 'Shipped', 'Delivered'),
-        allowNull: false,
+        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada'),
+        defaultValue: 'En Proceso',
     },
     user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-    },
-    prescription_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+
     },
     delivery_schedule: {
         type: DataTypes.DATE,
-        defaultValue: DataTypes.NOW,
+        allowNull: true
     },
+}, {
+    timestamps: true,
 });
-
-// Relaciones
-OrderModel.belongsTo(db.models.user, { foreignKey: 'user_id' });
-OrderModel.belongsTo(db.models.prescription, { foreignKey: 'prescription_id' });
 
 export default OrderModel;

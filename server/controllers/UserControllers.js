@@ -2,8 +2,20 @@ import UserModel from "../models/UserModel.js";
 
 export const getAllUsers = async (req, res) => {
     try {
-        const user = await UserModel.findAll(); // Trae todos los usuarios
-        res.status(200).json(user);
+        const{ page = 1, limit = 10 } = req.query;
+        const offset = (page - 1)*limit;
+        
+        const users = await UserModel.findAndCountAll({ // Trae todos los usuarios
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+
+        res.status(200).json({
+            users: users.rows,
+            total: users.count,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(users.count/limit)
+        });
     } catch (error) {
         res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
@@ -29,14 +41,17 @@ export const createUser = async (req, res) => {
         }
 
         const newUser = await UserModel.create({ name_, email, password_, matricula, role });
-        res.status(201).json({
-            message: "Usuario registrado exitosamente.",
+        res.status(200).json({
+            success: true,
+            message: "Usuario registrado exitosamente",
             user: newUser,
+            current_matricula: matricula
         });
     } catch (error) {
         res.status(400).json({ message: "Error al crear el usuario: " + error.message });
     }
 };
+
 export const updateUser = async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -48,7 +63,14 @@ export const updateUser = async (req, res) => {
             const updatedUser = await UserModel.findOne({ where: { user_id } });
             res.status(200).json({
                 message: "Usuario actualizado exitosamente.",
-                user: updatedUser,
+                user: {
+                    user_id: updatedUser.user_id,
+                    name_: updatedUser.name_,
+                    email: updatedUser.email,
+                    role: updatedUser.role,
+                    password_: updatedUser.password_,
+                    matricula: updatedUser.matricula
+                }
             });
         } else {
             res.status(404).json({ message: "Usuario no encontrado." });
@@ -57,6 +79,7 @@ export const updateUser = async (req, res) => {
         res.status(400).json({ message: "Error al actualizar el usuario: " + error.message });
     }
 };
+
 export const getUser = async (req, res) => {
     const { user_id } = req.params;
     try {
@@ -73,24 +96,32 @@ export const getUser = async (req, res) => {
         res.status(500).json({ message: "Error al obtener el usuario: " + error.message });
     }
 };
+
 export const loginUser = async (req, res) => {
     /*Fn para manejo de login en backend*/
+    let user;
     console.log("Solicitud de login recibida");
-    const { email, password } = req.body;
-    console.log(`Email: ${email}, Password: ${password}`);
+    const { email, password, rol } = req.body;
+
     try {
         //Buscar el usuario por correo y contraseña
-        const user = await UserModel.findOne({ where: { email : email, password_ : password } });
-        console.log("Usuario encontrado:", user);
+        if(rol==="admin"){
+            user = await UserModel.findOne({ where: { email : email, password_ : password } });
+        } else {
+            user = await UserModel.findOne({ where: { email : email, matricula : password } });
+        }
+
         if (user) {
             //Si se encuentra el usuario, devolver datos de éxito
             res.status(200).json({
                 message: "Login exitoso",
                 user: {
-                    id: user.user_id,
-                    name: user.name_,
+                    user_id: user.user_id,
+                    name_: user.name_,
                     email: user.email,
-                    role: user.role
+                    role: user.role,
+                    password_: user.password_,
+                    matricula: user.matricula
                 }
             });
         } else {
