@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FileText, Package, Bell } from 'lucide-react'; // Asegúrate de tener instalada la librería de iconos
+import { FileText, Package, Bell, Mail } from 'lucide-react'; // Asegúrate de tener instalada la librería de iconos
 
 const HomePage = () => {
 
@@ -22,12 +22,22 @@ const HomePage = () => {
     }
   }
 
+  const handleMsgClick = (e) => {
+    if(currentUser===null){
+      e.preventDefault();
+      alert("Para crear revisar mensajes se necesita iniciar sesión");
+    } else{
+      navigate("/messages");
+    }
+  }
+
+
   return (
 
       <div className="flex flex-col items-center justify-center h-full">
         <h2 className="text-3xl font-bold mb-8">Bienvenido a Farmacia Online</h2>
       { currentUser === null || currentUser.role === "general" ? (  
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> {/* Cambio de 2 a 3 columnas */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6"> {/* Cambio de 2 a 3 columnas */}
               <Link to="/cargar-receta" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={(handleOrderClick)}>
                 <FileText size={48} className="text-blue-600 mb-4" />
@@ -39,11 +49,16 @@ const HomePage = () => {
               </Link>
               <Link to="/notificaciones" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
                 <Bell size={48} className="text-red-600 mb-4" />
-                <span className="text-xl font-semibold">Notificaciones de Estado</span>
+                <span className="text-xl font-semibold">Notificaciones</span>
+              </Link>
+              <Link to="/messages" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105"
+                onClick={(handleMsgClick)}>
+                <Mail size={48} className="text-yellow-600 mb-4" />
+                <span className="text-xl font-semibold">Mensajes</span>
               </Link>
             </div>
           ):(
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6"> {/* Cambio de 2 a 3 columnas */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6"> {/* Cambio de 2 a 3 columnas */}
               <Link to="/ver_usuarios" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={(handleOrderClick)}>
                 <FileText size={48} className="text-blue-600 mb-4" />
@@ -56,6 +71,10 @@ const HomePage = () => {
               <Link to="/notificaciones" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
                 <Bell size={48} className="text-red-600 mb-4" />
                 <span className="text-xl font-semibold">Notificaciones</span>
+              </Link>
+              <Link to="/messages" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
+                <Mail size={48} className="text-yellow-600 mb-4" />
+                <span className="text-xl font-semibold">Mensajes</span>
               </Link>
             </div>
           )}

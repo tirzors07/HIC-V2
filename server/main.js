@@ -4,6 +4,7 @@ import cors from 'cors';
 import db from './database/db.js';  // Configuración de la base de datos
 import userRoutes from './routes/routesUser.js';  // Importa las rutas de usuario
 import orderRoutes from "./routes/orderRoutes.js" //Rutas de orden
+import messageRoutes from "./routes/messageRoutes.js";
 import { UserModel, OrderModel } from "./database/associations.js";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({
 app.use(express.json());  // Para manejar solicitudes JSON
 app.use('/user', userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
 app.use('/order', orderRoutes);
+app.use("/message", messageRoutes);
 
 try {
     await db.authenticate();
