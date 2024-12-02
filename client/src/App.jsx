@@ -56,16 +56,16 @@ const App = () => {
     <PharmacyContextProvider>
     <Router>
       <div className="min-h-screen bg-gray-100 flex flex-col w-screen items-center">
-        <header className="bg-blue-600 text-white p-4 flex justify-between items-center w-full">
+        <header className="bg-blue-600 text-white p-4 flex justify-between items-center w-full rounded-3xl">
           <div className="flex items-center">
             <Link to="/">
-              <img src={logo} alt="Logo de la Empresa" className="h-10" />
+              <img src={logo} alt="Logo de la Empresa" className="h-20" />
             </Link>
           </div>
           <div className="relative">
             <button
               onClick={handleUserButton} 
-              className="text-white bg-blue-500 rounded-2xl px-3 py-1 hover:bg-blue-700">
+              className="text-black bg-green-500 rounded-2xl px-4 py-1 hover:bg-yellow-400 motion-safe:hover:scale-110 transform transition-transform duration-300">
               {currentUser ? `Hola ${currentUser.name_}` : 'Iniciar Sesión'}
             </button>
             {isMenuOpen && currentUser && (
@@ -94,7 +94,6 @@ const App = () => {
             )}
           </div>
         </header>
-        <Navbar />
         <main className="flex-grow container w-screen p-4">
           <Routes>
             <Route path="/" element={<HomePage />} /> 
