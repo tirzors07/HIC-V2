@@ -167,7 +167,12 @@ const VerUsuarios = () => {
 
         {isRegistering && (
           <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto flex justify-center">
-          <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mx-auto h-auto max-h-screen my-64">
+          <div className="relative bg-white rounded-lg shadow-lg p-8 w-full max-w-lg mx-auto h-auto max-h-screen my-64">
+            <button
+              onClick={ () => setRegister(false) }
+              className="absolute top-2 right-2 bg-red-500 hover:bg-red-700 text-white">
+              X
+            </button>
             <form onSubmit={(e) => {
                 e.preventDefault();
                 registerAdmin();

@@ -50,6 +50,7 @@ const UploadComponent = () => {
     const formData = new FormData();
     formData.append('image',file);
     formData.append('user_id',currentUser.user_id);
+    formData.append("flavor", flavor);
     try {
       setIsUploading(true);
       const response = await axios.post('http://localhost:3000/prescriptions', formData, {
@@ -63,7 +64,7 @@ const UploadComponent = () => {
           //user_id: currentUser.user_id,
       });
       if (response.status === 201) {
-        alert(`Receta creada con ID: ${response.data.prescription.prescription_id}`);  // Aquí usamos prescription_id
+        alert(`Receta creada con ID: ${response.data.prescription.prescription_id}\nLa orden sera revisada y creada por un administrador, revise mas tarde`);  // Aquí usamos prescription_id
         setSuccess(true);
         setImageUrl(`http://localhost:3000${response.data.prescription.image_url}`);
       }
@@ -140,7 +141,7 @@ const UploadComponent = () => {
         onChange={(e) => setFlavor(e.target.value)}
         className="block w-full mt-3 mb-3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white"
         >
-          <option value="">--Selecciona un sabor--</option>
+          <option value="">Sin preferencia</option>
           <option value="fresa">Fresa</option>
           <option value="mango">Mango</option>
           <option value="chocolate">Chocolate</option>

@@ -9,6 +9,8 @@ const Recetas = () => {
     const [search, setSearch] = useState("");
     const [preMsgOpen, setPreMsg] = useState(false);
     const [foundPrescription, setFoundPrescription] = useState(null);
+    const [imgPath, setImgPath] = useState("");
+    const basePath = "http://localhost:3000/server";
 
     //Detalles de nuevo medicamento
     const [medicines, setMedicines] = useState([])
@@ -96,6 +98,7 @@ const Recetas = () => {
         const foundPrescription = prescriptions.find(p => p.prescription_id === preID);
         if(foundPrescription){
           setFoundPrescription(foundPrescription);
+          setImgPath(`${basePath}${foundPrescription.image_url}`);
           setPreMsg(true);
         }
       };
@@ -175,7 +178,7 @@ const Recetas = () => {
                         <h2 className="text-xl font-bold mb-4">
                             Detalles de la Receta:
                         </h2>
-                        <h3>Agrega los detalles de los medicamentos (Máximo 5 medicamentos):</h3> 
+                        <h3>Agrega los detalles de los medicamentos (Máximo 5 medicamentos):</h3>
                         <p className="my-2">
                             <strong>Nombre de Medicamento: </strong>
                             <input

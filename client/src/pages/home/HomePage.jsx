@@ -41,7 +41,7 @@ const HomePage = () => {
               <Link to="/cargar-receta" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={(handleOrderClick)}>
                 <FileText size={48} className="text-blue-600 mb-4" />
-                <span className="text-xl font-semibold">Nueva Orden</span>
+                <span className="text-xl font-semibold">Subir Receta</span>
               </Link>
               <Link to="/seguimiento-pedido" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
                 <Package size={48} className="text-green-600 mb-4" />
