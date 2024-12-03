@@ -2,7 +2,7 @@ import "./App.css";
 import React, {useState, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useNavigate} from 'react-router-dom';
 import logo from './assets/logo.png'; 
-import { Navbar } from "./components/navbar.jsx";
+import io from "socket.io-client";
 //Shared pages
 import UserProfile from "./pages/user_profile/user_profile.jsx"
 import HomePage from './pages/home/HomePage.jsx'; 
@@ -19,8 +19,8 @@ import UploadComponent from "./pages/request_order/UploadComponent.jsx";
 import Login from "./pages/login/login"; // Login para administradores
 import VerUsuarios from "./pages/admin_pages/VerUsuarios.jsx"
 import VerOrdenes from "./pages/admin_pages/VerOrdenes.jsx"
-
 import { PharmacyContextProvider } from "./context/pharmacy-context";
+const socket = io("http://localhost:3000");
 
 const App = () => {
 
@@ -31,6 +31,18 @@ const App = () => {
       const user = JSON.parse(localStorage.getItem("usuarioActual"));
       setCurrentUser(user);
   }, []);
+
+  useEffect( () => {
+    if(currentUser){
+      socket.emit("userLoggedIn", currentUser.user_id, currentUser.role);
+      socket.on("unseenMessages", (message) => {
+        alert(message);
+      });
+      return () => {
+        socket.off("unseenMessages");
+      };
+    }
+  }, [currentUser]);
 
   const handleUserButton = () => {
     if(currentUser === null){

@@ -34,3 +34,15 @@ export const createMsg = async (req, res) => {
         res.status(400).json({ message: "Error al crear el mensaje: " + error.message });
     }
 };
+
+export const updateMsg = async (req, res) => {
+    const { msg_id } = req.params;
+    try {
+        const [updated] = await MessageModel.update(req.body, {
+            where: { msg_id },
+        });
+
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
