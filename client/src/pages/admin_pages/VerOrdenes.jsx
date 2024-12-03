@@ -18,7 +18,7 @@ const VerOrdenes = () => {
 
   const getOrders = async () => {
     try{
-      const response = await axios.get("http://localhost:3000/order/get_orders", {
+      const response = await axios.get("http://localhost:3000/order/", {
         params: {page} 
       });
       const ordersWithNames = await Promise.all(response.data.orders.map(async (order) => {
@@ -79,7 +79,7 @@ const VerOrdenes = () => {
       delivery_schedule: new Date(updatedDelivery).toISOString()
     };
     try{
-      const response = await axios.put(`http://localhost:3000/order/update_order/${order_id}`, updatedOrder);
+      const response = await axios.put(`http://localhost:3000/order/update/${order_id}`, updatedOrder);
       setOrderMsg(false);
       window.location.reload();
       alert("Orden actualizada");
@@ -162,7 +162,6 @@ const VerOrdenes = () => {
                       value={updatedState}
                       onChange={ (e) => setUpdatedState(e.target.value)}
                       className="p-2 border-gray-300 rounded-md bg-white">
-                        <option value="En Proceso">En Proceso</option>
                         <option value="Preparando">Preparando</option>
                         <option value="Lista">Lista</option>
                         <option value="Entregada">Entregada</option>

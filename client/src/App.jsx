@@ -21,6 +21,7 @@ import Login from "./pages/login/login"; // Login para administradores
 import VerUsuarios from "./pages/admin_pages/VerUsuarios.jsx"
 import VerOrdenes from "./pages/admin_pages/VerOrdenes.jsx"
 import { PharmacyContextProvider } from "./context/pharmacy-context";
+import Recetas from "./pages/recetas/recetas.jsx"
 const socket = io("http://localhost:3000");
 
 const App = () => {
@@ -122,6 +123,7 @@ const App = () => {
             <Route path="/user-orders" element={<HistorialOrdenes />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/notifications" element={<Notificaciones />} />
+            <Route path="/prescriptions" element={<Recetas />} />
           </Routes>
         </main>
 

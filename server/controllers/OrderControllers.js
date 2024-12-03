@@ -19,7 +19,7 @@ export const getAllOrders = async (req, res) => {
             totalPages: Math.ceil(orders.count/limit)
         });
     } catch (error) {
-        res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
+        res.status(500).json({ message: "Error al obtener las ordenes: " + error.message });
     }
 };
 
@@ -68,23 +68,10 @@ export const createOrder = async (req, res) => {
     const { user_id, prescription_id } = req.body; // ahora debes incluir prescription_id en el body
 
     try {
-        // Verificar si el user_id existe en la base de datos
-        const userExists = await UserModel.findByPk(user_id);
-        if (!userExists) {
-            return res.status(404).json({ message: "El usuario no existe" });
-        }
-
-        // Verificar si la receta existe
-        const prescriptionExists = await PrescriptionModel.findByPk(prescription_id);
-        if (!prescriptionExists) {
-            return res.status(404).json({ message: "Receta no encontrada" });
-        }
-
         // Crear el pedido
         const newOrder = await OrderModel.create({
             user_id,
             prescription_id,
-            state: 'Confirmed', // El estado inicial puede ser 'Confirmed' o cualquier valor que se ajuste a tu flujo
         });
 
         res.status(201).json({

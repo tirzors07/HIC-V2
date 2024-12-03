@@ -29,7 +29,7 @@ const HistorialOrdenes = () => {
   
     const getOrders = async () => {
       try{
-        const response = await axios.get("http://localhost:3000/order/get_orders", {
+        const response = await axios.get("http://localhost:3000/order/", {
           params: {page} 
         });
         setOrders(response.data.orders);
@@ -38,7 +38,7 @@ const HistorialOrdenes = () => {
         alert("No se pudo obtener la informacion de las ordenes");
         console.log("Error al obtener ordenes");
       }
-    };
+    }; 
 
     const filterOrders = () => {
         const filteredOrders = orders.filter(order => order.user_id === currentUser.user_id);

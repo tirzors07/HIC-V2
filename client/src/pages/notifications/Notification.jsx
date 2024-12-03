@@ -1,7 +1,6 @@
 import io from "socket.io-client";
 import React, {useState, useEffect} from 'react';
 
-const socket = io("http://localhost:3000");
 const Notification = () => {
 
   const [currentUser, setCurrentUser] = useState(null);
@@ -14,12 +13,14 @@ const Notification = () => {
 
   useEffect( () => {
     if(currentUser){
+      const socket = io("http://localhost:3000");
       socket.emit("userLoggedIn", currentUser.user_id, currentUser.role);
-      socket.on("msgCount", (count) => {
-        setUnseenMsgs(count);
+      socket.on("msgCount", (unseenCount) => {
+        setUnseenMsgs(unseenCount);
       });
       return () => {
         socket.off("msgCount");
+        socket.disconnect();
       };
     }
   }, [currentUser]);
