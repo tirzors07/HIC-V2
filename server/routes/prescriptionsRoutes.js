@@ -3,7 +3,7 @@ import {getAllPrescriptions,getPrescription,createPrescription,updatePrescriptio
 
 const router = express.Router();
 // Obtener todas las recetas
-router.get('/', getAllPrescriptions);
+router.get('/get_prescriptions', getAllPrescriptions);
 // Obtener una receta por su ID
 router.get('/:id', getPrescription);
 // Crear una nueva receta con imagen

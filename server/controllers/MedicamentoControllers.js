@@ -26,23 +26,25 @@ export const getMedicamento = async (req, res) => {
 };
 // Crear un nuevo medicamento
 export const createMedicamento = async (req, res) => {
-    const { nombre, flavor, dosis, frecuencia } = req.body;
+    const { nombre, flavor, dosis, frecuencia, prescription_id } = req.body;
 
     try {
         const newMedicamento = await MedicamentoModel.create({
-            nombre,
-            flavor,
-            dosis,
-            frecuencia,
+            nombre: nombre,
+            flavor: flavor,
+            dosis: dosis,
+            frecuencia: frecuencia,
+            prescription_id: prescription_id,
         });
 
         res.status(201).json({
+            success: true,
             message: "Medicamento creado",
             medicamento: newMedicamento,
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
-    }
+    } 
 };
 // Actualizar un medicamento
 export const updateMedicamento = async (req, res) => {

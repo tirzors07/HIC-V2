@@ -21,10 +21,22 @@ export const uploadImage = upload.single('image'); // Middleware para subir una 
 // Obtener todas las recetas
 export const getAllPrescriptions = async (req, res) => {
     try {
-        const prescriptions = await PrescriptionModel.findAll();
-        res.json(prescriptions);
+        const{ page = 1, limit = 10 } = req.query;
+        const offset = (page - 1)*limit;
+
+        const prescriptions = await PrescriptionModel.findAndCountAll({ 
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+        });
+
+        res.status(200).json({
+            prescriptions: prescriptions.rows,
+            total: prescriptions.count,
+            currentPage: parseInt(page),
+            totalPages: Math.ceil(prescriptions.count/limit)
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Error al obtener los usuarios: " + error.message });
     }
 };
 // Obtener una receta por su ID

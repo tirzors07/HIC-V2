@@ -1,7 +1,7 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FileText, Package, Bell, Mail } from 'lucide-react'; // Asegúrate de tener instalada la librería de iconos
+import { FileText, Package, Bell, Mail, Clipboard } from 'lucide-react'; // Asegúrate de tener instalada la librería de iconos
 
 const HomePage = () => {
 
@@ -25,7 +25,7 @@ const HomePage = () => {
   const handleMsgClick = (e) => {
     if(currentUser===null){
       e.preventDefault();
-      alert("Para crear revisar mensajes se necesita iniciar sesión");
+      alert("Para revisar mensajes se necesita iniciar sesión");
     } else{
       navigate("/messages");
     }
@@ -58,7 +58,11 @@ const HomePage = () => {
               </Link>
             </div>
           ):(
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6"> {/* Cambio de 2 a 3 columnas */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+              <Link to="/prescriptions" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
+                <Clipboard size={48} className="text-purple-600 mb-4" />
+                <span className="text-xl font-semibold">Recetas</span>
+              </Link>
               <Link to="/ver_usuarios" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={(handleOrderClick)}>
                 <FileText size={48} className="text-blue-600 mb-4" />

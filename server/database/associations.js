@@ -1,6 +1,8 @@
 import UserModel from "../models/UserModel.js";
 import OrderModel from "../models/OrderModel.js";
 import MessageModel from "../models/MessageModel.js";
+import MedicineModel from "../models/MedicamentoModel.js";
+import PrescriptionModel from "../models/PrescriptionModel.js";
 
 //Relaciones entre Orden y Usuario
 UserModel.hasMany(OrderModel, {
@@ -42,4 +44,11 @@ MessageModel.hasOne(MessageModel, {
     foreignKey: "respondingTo",
 });
 
-export { UserModel, OrderModel, MessageModel };
+//Relaciones entre Medicine y Prescription
+MedicineModel.belongsTo(PrescriptionModel, { 
+    foreignKey: 'prescription_id' });
+PrescriptionModel.hasMany(MedicineModel, {
+    foreignKey: "prescription_id"
+});
+
+export { UserModel, OrderModel, MessageModel, PrescriptionModel, MedicineModel };

@@ -11,7 +11,7 @@ const UploadComponent = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadCancelToken, setUploadCancelToken] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [flavor, setFlavor] = useState("");
+  const [flavor, setFlavor] = useState("Sin preferencia");
 
   //Datos de usuario
   const [currentUser, setCurrentUser] = useState(null);

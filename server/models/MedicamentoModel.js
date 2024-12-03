@@ -7,24 +7,26 @@ const MedicamentoModel = db.define('medicamento', {
         primaryKey: true,
         autoIncrement: true,
     },
+    prescription_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     nombre: {
         type: DataTypes.STRING(60),
         allowNull: false,
     },
     flavor: {
-        type: DataTypes.STRING(45),
+        type: DataTypes.STRING(20),
         allowNull: true,
     },
     dosis: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         allowNull: true,
     },
     frecuencia: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         allowNull: true,
     },
 });
 
-// Relación muchos a muchos con `prescription` a través de la tabla `medicamento_prescripcion`
-MedicamentoModel.belongsToMany(db.models.prescription, { through: 'medicamento_prescripcion', foreignKey: 'medicamento_id' });
 export default MedicamentoModel;
