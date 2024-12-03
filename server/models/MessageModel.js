@@ -24,6 +24,14 @@ const MessageModel = db.define("messages", {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         allowNull: false,
     },
+    hasBeenSeen: {
+        type: DataTypes.STRING(10),
+        defaultValue: "false",
+    },
+    respondingTo: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
 }, {
     timestamps: true,
 });
