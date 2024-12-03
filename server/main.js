@@ -7,6 +7,7 @@ import userRoutes from './routes/routesUser.js';  // Importa las rutas de usuari
 import orderRoutes from "./routes/orderRoutes.js" //Rutas de orden
 import messageRoutes from "./routes/messageRoutes.js";
 import prescriptionsRoutes from "./routes/prescriptionsRoutes.js"
+import medicamentoRoutes from "./routes/medicamentoRoutes.js";
 import './database/associations.js';
 import {Server} from "socket.io";
 import http from "http";
@@ -34,6 +35,7 @@ app.use('/user', userRoutes);  // Esta línea conecta las rutas de usuarios con 
 app.use('/order', orderRoutes);
 app.use("/message", messageRoutes);
 app.use('/prescriptions', prescriptionsRoutes);
+app.use("/medicamentos", medicamentoRoutes); // Puedes ajustar el prefijo de las rutas según lo necesites
 
 try {
     await db.authenticate();

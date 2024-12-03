@@ -25,7 +25,7 @@ export const getMedicamento = async (req, res) => {
     }
 };
 // Crear un nuevo medicamento
-export const createMedicamento = async (req, res) => {
+/*export const createMedicamento = async (req, res) => {
     const { nombre, flavor, dosis, frecuencia } = req.body;
 
     try {
@@ -43,7 +43,27 @@ export const createMedicamento = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+};*/
+// Crear un nuevo medicamento
+export const createMedicamento = async (req, res) => {
+    const { flavor, prescription_id } = req.body; // Tomamos `flavor` y `prescription_id` del cuerpo de la solicitud
+    console.log("Creando medicamento con los siguientes datos:", flavor, prescription_id); // Verifica los datos que llegan
+    try {
+        // Crear un nuevo registro de medicamento con el flavor y prescription_id
+        const newMedicamento = await MedicamentoModel.create({
+            flavor,
+            prescription_id, // Asociamos el ID de la receta
+        });
+
+        res.status(201).json({
+            message: "Medicamento creado",
+            medicamento: newMedicamento,
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 };
+
 // Actualizar un medicamento
 export const updateMedicamento = async (req, res) => {
     try {
