@@ -50,6 +50,7 @@ const UploadComponent = () => {
     const formData = new FormData();
     formData.append('image',file);
     formData.append('user_id',currentUser.user_id);
+    formData.append("flavor", flavor);
     try {
       setIsUploading(true);
       const response = await axios.post('http://localhost:3000/prescriptions', formData, {
@@ -140,11 +141,11 @@ const UploadComponent = () => {
         onChange={(e) => setFlavor(e.target.value)}
         className="block w-full mt-3 mb-3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white"
         >
-          <option value="">--Selecciona un sabor--</option>
-          <option value="fresa">Fresa</option>
-          <option value="mango">Mango</option>
-          <option value="chocolate">Chocolate</option>
-          <option value="vainilla">Vainilla</option>
+          <option value="Sin preferencia">Sin preferencia</option>
+          <option value="Fresa">Fresa</option>
+          <option value="Mango">Mango</option>
+          <option value="Chocolate">Chocolate</option>
+          <option value="Vainilla">Vainilla</option>
         </select>
 
       <div className="buttons">

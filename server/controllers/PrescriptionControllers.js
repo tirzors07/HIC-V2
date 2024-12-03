@@ -49,7 +49,7 @@ export const createPrescription = async (req, res) => {
         return res.status(400).json({ message: "No se ha subido ninguna imagen." });
     }
 
-    const { user_id } = req.body;
+    const { user_id, flavor } = req.body;
     const imageUrl = `/uploads/${req.file.filename}`; // La URL de la imagen
 
     // Validamos los campos obligatorios
@@ -67,6 +67,7 @@ export const createPrescription = async (req, res) => {
         // Creamos la nueva receta
         const newPrescription = await PrescriptionModel.create({
             user_id,
+            flavor: flavor,
             image_url: imageUrl,  // Ruta de la imagen
             image_format: req.file.mimetype,  // Formato de la imagen
             image_size: req.file.size,  // Tamaño de la imagen

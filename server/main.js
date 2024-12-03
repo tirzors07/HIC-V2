@@ -61,6 +61,7 @@ io.on("connection", (socket) => {
             const unseenMsgs = filteredMessages.filter(msg => msg.hasBeenSeen === "false");
             const unseenCount = unseenMsgs.length;
             console.log(`unseen msgs: ${unseenCount}`);
+            socket.emit("msgCount", unseenCount);
 
             if(unseenCount > 0){
                 socket.emit("unseenMessages", `Tienes ${unseenCount} mensajes nuevos`);

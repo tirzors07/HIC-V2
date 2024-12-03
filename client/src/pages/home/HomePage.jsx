@@ -47,7 +47,7 @@ const HomePage = () => {
                 <Package size={48} className="text-green-600 mb-4" />
                 <span className="text-xl font-semibold">Seguimiento de Pedido</span>
               </Link>
-              <Link to="/notificaciones" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
+              <Link to="/notifications" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
                 <Bell size={48} className="text-red-600 mb-4" />
                 <span className="text-xl font-semibold">Notificaciones</span>
               </Link>
@@ -68,7 +68,7 @@ const HomePage = () => {
                 <Package size={48} className="text-green-600 mb-4" />
                 <span className="text-xl font-semibold">Ver Ordenes</span>
               </Link>
-              <Link to="/notificaciones" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
+              <Link to="/notifications" className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center transition duration-300 ease-in-out transform hover:scale-105">
                 <Bell size={48} className="text-red-600 mb-4" />
                 <span className="text-xl font-semibold">Notificaciones</span>
               </Link>

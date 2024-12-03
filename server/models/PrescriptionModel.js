@@ -15,6 +15,10 @@ const PrescriptionModel = db.define('prescription', {
         type: DataTypes.STRING(50),
         allowNull: false,
     },
+    flavor: {
+        type: DataTypes.ENUM("Sin preferencia", "Fresa", "Mango", "Chocolate", "Vainilla"),
+        defaultValue: "Sin preferencia",
+    },
     image_format: {
         type: DataTypes.ENUM('JPEG', 'PNG', 'JPG'),
         allowNull: false,
