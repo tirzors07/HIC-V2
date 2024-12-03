@@ -24,6 +24,27 @@ const Messages = () => {
         }
     }, [currentUser])
 
+    const updateMessages = async () => {
+        try{
+            const updatedMsgs = receivedMsgs.map(msg => ({
+                ...msg,
+                hasBeenSeen: "true"
+            }));
+
+            const updatePromises = updatedMsgs.map( msg => axios.put(`http://localhost:3000/message/update_msg/${msg.msg_id}`, msg));
+            await Promise.all(updatePromises);
+            console.log("Mensajes actualizados");
+        } catch(error){
+            console.error("Error al actualizar mensajes");
+        }
+    };
+
+    useEffect( () => {
+        return() => {
+            updateMessages();
+        };
+    }, [receivedMsgs]);
+
     const getMessages = async() => {
         if(currentUser.role === "general"){
             try{
@@ -120,6 +141,11 @@ const Messages = () => {
                                         <p><strong>Mensaje: </strong>{msg.msg_content}</p>
                                         {receivedMsgs.filter(m => m.respondingTo === msg.msg_id).map(response => (
                                             <div key={response.msg_id} className="text-right">
+                                                {response.hasBeenSeen === "false" ? (
+                                                    <div>
+                                                        <strong style={{color: "red"}}>Mensaje Nuevo</strong>
+                                                    </div>
+                                                ) : null }
                                                 <strong>Respuesta: </strong>
                                                 <p><strong>De: </strong>Administrador</p>
                                                 <p><strong>Para: </strong>{currentUser.name_}</p>
@@ -143,6 +169,11 @@ const Messages = () => {
                             <ul className="w-full max-w bg-white shadow-md rounded-lg p-4">
                                 {receivedMsgs.map((msg) => (
                                     <li key={msg.msg_id} className="border-b last:border-0 p-2">
+                                        {msg.hasBeenSeen === "false" ? (
+                                            <div>
+                                                <strong style={{color: "red"}}>Mensaje Nuevo</strong>
+                                            </div>
+                                        ) : null }
                                         <p><strong>De: </strong>{msg.patient_name}</p>
                                         <p><strong>Para: </strong>Administrador</p>
                                         <p><strong>Fecha: </strong>{msg.msg_date}</p>
