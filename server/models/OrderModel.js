@@ -8,13 +8,17 @@ const OrderModel = db.define('order', {
         primaryKey: true,
         autoIncrement: true,
     },
+    prescription_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     order_date: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     },
     state: {
-        type: DataTypes.ENUM('En Proceso', 'Preparando', 'Lista', 'Entregada', 'Cancelada'),
-        defaultValue: 'En Proceso',
+        type: DataTypes.ENUM('Preparando', 'Lista', 'Entregada', 'Cancelada'),
+        defaultValue: 'Preparando',
     },
     user_id: {
         type: DataTypes.INTEGER,

@@ -1,7 +1,7 @@
 import db from "../database/db.js";
 import { DataTypes } from "sequelize";
 
-const MedicamentoModel = db.define('medicamento', {
+const MedicamentoModel = db.define('medicamentos', {
     medicamento_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -17,16 +17,18 @@ const MedicamentoModel = db.define('medicamento', {
     },
     flavor: {
         type: DataTypes.STRING(20),
-        allowNull: true,
+        allowNull: false,
     },
     dosis: {
         type: DataTypes.STRING(50),
-        allowNull: true,
+        allowNull: false,
     },
     frecuencia: {
         type: DataTypes.STRING(50),
-        allowNull: true,
+        allowNull: false,
     },
+}, {
+    timestamps: true,
 });
 
 export default MedicamentoModel;

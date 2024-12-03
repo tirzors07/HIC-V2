@@ -11,9 +11,11 @@ const Recetas = () => {
     const [foundPrescription, setFoundPrescription] = useState(null);
 
     //Detalles de nuevo medicamento
+    const [medicines, setMedicines] = useState([])
     const [medName, setMedName] = useState("");
     const [medDosis, setMedDosis] = useState("");
     const [medFreq, setMedFreq] = useState("");
+    const [medCount, setMedCount] = useState(0);
 
     useEffect( () => {
         getPrescriptions();
@@ -40,10 +42,28 @@ const Recetas = () => {
 
     }
 
+    const handleCreateOrder = async() => {
+        try{
+            const response = await axios.post("http://localhost:3000/order/order", {
+                user_id: foundPrescription.user_id,
+                prescription_id: foundPrescription.prescription_id,
+            });
+            if(response.data.success){
+                alert("Orden Creada");
+            }
+        } catch(error){
+            alert("No se pudo crear la orden");
+        }
+    }
+
     const handleSaveMed = async() => {
         try{
-            const response = await axios.post("http://localhost:3000/medicines/get_meds", {
-                name: medName,
+            if(medCount > 5){
+                alert("No se pueden añadir mas medicamentos a esta receta, máximo 5");
+                return;
+            }
+            const response = await axios.post("http://localhost:3000/medicines/new_med", {
+                nombre: medName,
                 dosis: medDosis,
                 frecuencia: medFreq,
                 flavor: foundPrescription.flavor,
@@ -51,6 +71,8 @@ const Recetas = () => {
             });
             if(response.data.success){
                 alert("Medicamento añadido a la receta");
+                medCount++;
+                medicines.append(response.data.medicamento)
             }
         } catch(error){
             alert("Error al añadir el medicamento");
@@ -58,7 +80,12 @@ const Recetas = () => {
     }
 
     const handleAddMed = () => {
-
+        if( medName != "" && medDosis != "" && medFreq != ""){
+            handleSaveMed();
+        }
+        setMedName("");
+        setMedDosis("");
+        setMedFreq("");
     }
 
     const handlePreMsg = () => {
@@ -186,9 +213,14 @@ const Recetas = () => {
                             <button
                                 onClick={ () => handleAddMed() }
                                 className="mt-4 p-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition">
-                                Añadir Medicamento
+                                Añadir Otro Medicamento
                             </button>
                         </div>
+                        <button
+                            onClick={ () => handleCreateOrder() }
+                            className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition">
+                            Terminar y Crear Orden
+                        </button>
                 </div> 
                 )} 
                 </div> 

@@ -46,7 +46,8 @@ MessageModel.hasOne(MessageModel, {
 
 //Relaciones entre Medicine y Prescription
 MedicineModel.belongsTo(PrescriptionModel, { 
-    foreignKey: 'prescription_id' });
+    foreignKey: 'prescription_id' 
+});
 PrescriptionModel.hasMany(MedicineModel, {
     foreignKey: "prescription_id"
 });
