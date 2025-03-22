@@ -178,6 +178,11 @@ const Recetas = () => {
                         <h2 className="text-xl font-bold mb-4">
                             Detalles de la Receta:
                         </h2>
+                        <img 
+                            src={`http://localhost:3000${foundPrescription.image_url}`} 
+                            alt="Receta médica" 
+                            className="w-75 h-75 mx-auto mb-4 object-contain"
+                        />
                         <h3>Agrega los detalles de los medicamentos (Máximo 5 medicamentos):</h3>
                         <p className="my-2">
                             <strong>Nombre de Medicamento: </strong>

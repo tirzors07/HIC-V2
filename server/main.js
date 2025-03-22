@@ -29,7 +29,7 @@ app.use(cors({
 }));
 
 // Middleware para servir archivos estáticos desde la carpeta 'uploads'
-app.use('/uploads', express.static(path.resolve('server/uploads')));
+app.use('/uploads', express.static(path.resolve('uploads')));
 app.use(express.json());  // Para manejar solicitudes JSON
 app.use('/user', userRoutes);  // Esta línea conecta las rutas de usuarios con el prefijo /users
 app.use('/order', orderRoutes);

@@ -74,19 +74,23 @@ const VerOrdenes = () => {
 
   const handleSaveChanges = async (order_id, order) => {
     const updatedOrder = {
-      ...order,
-      state: updatedState,
-      delivery_schedule: new Date(updatedDelivery).toISOString()
+        ...order,
+        state: updatedState,
+        delivery_schedule: new Date(updatedDelivery).toISOString()
     };
-    try{
-      const response = await axios.put(`http://localhost:3000/order/update/${order_id}`, updatedOrder);
-      setOrderMsg(false);
-      window.location.reload();
-      alert("Orden actualizada");
-    } catch(error){
-      alert("Error al actualizar pedido");
+    try {
+        const response = await axios.put(`http://localhost:3000/order/update/${order_id}`, updatedOrder);
+        if (response.data.success) {
+            alert("Orden actualizada");
+            setOrders(prevOrders => prevOrders.map(o => 
+                o.order_id === order_id ? { ...o, state: updatedState, delivery_schedule: updatedOrder.delivery_schedule } : o
+            ));
+            setOrderMsg(false);
+        }
+    } catch (error) {
+        alert("Error al actualizar pedido");
     }
-  };
+};
 
     return (
       <div className="flex flex-col items-center justify-center h-full">

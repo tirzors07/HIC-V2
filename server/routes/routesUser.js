@@ -1,6 +1,6 @@
 import express from "express";//para facilitar conexion con el servidor
 import { getAllUsers, createUser, updateUser, getUser, loginUser } from "../controllers/UserControllers.js";
-import { resolveEnvPrefix } from "vite";
+
 const router = express.Router();
 
 router.get('/', getAllUsers);
