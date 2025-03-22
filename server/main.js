@@ -20,12 +20,12 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: "http://172.210.233.153:5173",
     }
 });
 
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://172.210.233.153:5173"
 }));
 
 // Middleware para servir archivos estáticos desde la carpeta 'uploads'
@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
         console.log(`userLoggedIn event recibido. userID: ${userID}, userRole: ${userRole}`);
         try {
             let filteredMessages = [];
-            const response = await axios.get("http://localhost:3000/message/");
+            const response = await axios.get("http://172.210.233.153:3000/message/");
             if(userRole === "general"){
                 filteredMessages = response.data.messages.filter( (msg) => msg.receiver_id === userID );
             } else if(userRole === "hic_admin"){
