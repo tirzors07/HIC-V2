@@ -73,8 +73,9 @@ const Recetas = () => {
             });
             if(response.data.success){
                 alert("Medicamento añadido a la receta");
-                medCount++;
-                medicines.append(response.data.medicamento)
+                setMedCount(medCount + 1);
+                setMedicines([...medicines, response.data.medicamento]);
+                //medicines.append(response.data.medicamento)
             }
         } catch(error){
             alert("Error al añadir el medicamento");
