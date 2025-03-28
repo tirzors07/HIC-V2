@@ -11,15 +11,18 @@ const UploadComponent = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadCancelToken, setUploadCancelToken] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [flavor, setFlavor] = useState("Sin preferencia");
+  const [medCount, setMedCount] = useState(1);
+  const [flavors, setFlavors] = useState([]);
+  const availableFlavors = ["Fresa", "Uva", "Plátano", "Mango", "Piña", "Chicle Rosa", "Chicle Azul", "Grosella"];
 
   //Datos de usuario
   const [currentUser, setCurrentUser] = useState(null);
 
-  useEffect( () => {
-      const user = JSON.parse(localStorage.getItem("usuarioActual"));
-      setCurrentUser(user);
-  }, [] );
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("usuarioActual"));
+    setCurrentUser(user);
+    setFlavors(Array(medCount).fill("")); // ✅ Asegurar que flavors siempre tenga el tamaño correcto
+}, [medCount]);
 
 
   const handleFileChange = (e) => {
@@ -50,7 +53,7 @@ const UploadComponent = () => {
     const formData = new FormData();
     formData.append('image',file);
     formData.append('user_id',currentUser.user_id);
-    formData.append("flavor", flavor);
+    formData.append("flavor", flavors);
     try {
       setIsUploading(true);
       const response = await axios.post('http://localhost:3000/prescriptions', formData, {
@@ -96,11 +99,45 @@ const UploadComponent = () => {
     setFile(null);
     setSuccess(false);
   };
-
+  const handleFlavorChange = (index, value) => {
+    const newFlavors = [...flavors];
+    newFlavors[index] = value;
+    setFlavors(newFlavors);
+  };
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-4">Cargar Receta Médica</h2>
-      <label htmlFor="fileInput" className="block text-sm font-medium text-gray-700 mb-2">
+    <div className="flex max-w-6xl mx-auto p-6 gap-6">
+      {/* Formulario de paciente */}
+      <div className="w-1/2 bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Cuestionario</h2>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Nombre completo</label>
+          <input type="text" className="w-full p-2 border rounded-lg bg-white text-black" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Peso (kg)</label>
+          <input type="number" className="w-full p-2 border rounded-lg bg-white text-black" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Fecha de Nacimiento</label>
+          <input type="date" className="w-full p-2 border rounded-lg bg-white text-black" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">Diagnóstico o padecimiento</label>
+          <input type="text" className="w-full p-2 border rounded-lg bg-white text-black" />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700">¿Intolerante a lactosa?</label>
+          <select className="w-full p-2 border rounded-lg bg-white text-black">
+            <option>No</option>
+            <option>Sí</option>
+          </select>
+        </div>
+      </div>
+      
+      {/* Subida de receta y sabores */}
+      <div className="w-1/2 bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">Cargar Receta Médica</h2>
+        <label htmlFor="fileInput" className="block text-sm font-medium text-gray-700 mb-2">
         Selecciona una imagen:
       </label>
       <input 
@@ -113,9 +150,8 @@ const UploadComponent = () => {
           file:text-sm file:font-semibold
           file:bg-blue-50 file:text-blue-700
           hover:file:bg-blue-100"
-      />
-      
-      {errorMessage && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg flex items-center">
+        />
+        {errorMessage && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg flex items-center">
         <AlertCircle className="mr-2" size={20} />
         {errorMessage}
       </div>}
@@ -131,24 +167,34 @@ const UploadComponent = () => {
           <button onClick={handleRemoveImage} className="mt-2 text-red-500">Eliminar Imagen</button>
         </div>
       )}
-
-      <label htmlFor="flavorSelect" className="block text-sm mb-1 mt-1 font-medium text-gray-700 bm-2">
-        Selecciona un sabor para el medicamento:
-      </label>
-      <select
-        id="flavorSelect"
-        value={flavor}
-        onChange={(e) => setFlavor(e.target.value)}
-        className="block w-full mt-3 mb-3 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-white"
-        >
-          <option value="">Sin preferencia</option>
-          <option value="fresa">Fresa</option>
-          <option value="mango">Mango</option>
-          <option value="chocolate">Chocolate</option>
-          <option value="vainilla">Vainilla</option>
-        </select>
-
-      <div className="buttons">
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-700">Cantidad de medicamentos en la receta</label>
+          <input 
+            type="number" 
+            min="1" 
+            max="10" 
+            value={medCount} 
+            onChange={(e) => setMedCount(Number(e.target.value))} 
+            className="w-full p-2 border rounded-lg bg-white text-black" 
+          />
+        </div>
+        
+        {flavors.map((flavor, index) => (
+          <div key={index} className="mt-4">
+            <label className="block text-sm font-medium text-gray-700">Sabor para medicamento {index + 1}</label>
+            <select 
+              value={flavor} 
+              onChange={(e) => handleFlavorChange(index, e.target.value)}
+              className="w-full p-2 border rounded-lg bg-white text-black"
+            >
+              <option value="">Seleccione un sabor</option>
+              {availableFlavors.map((f, i) => (
+                <option key={i} value={f}>{f}</option>
+              ))}
+            </select>
+          </div>
+        ))}
+        <div className="mt-6">
         <button onClick={handleUpload} disabled={isUploading || !file} className={`w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isUploading || !file ? 'opacity-50 cursor-not-allowed' : ''}`}>
           {isUploading ? (
             <>
@@ -175,6 +221,8 @@ const UploadComponent = () => {
           <span>La receta ha sido cargada exitosamente.</span>
         </div>
       )}
+
+      </div>
     </div>
   );
 
