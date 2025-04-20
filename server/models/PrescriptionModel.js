@@ -16,7 +16,7 @@ const PrescriptionModel = db.define('prescription', {
         allowNull: false,
     },
     flavor: {
-        type: DataTypes.ENUM("Sin preferencia", "Fresa", "Mango", "Chocolate", "Vainilla"),
+        type: DataTypes.ENUM("Sin preferencia", "Fresa", "Uva", "Plátano", "Mango", "Piña", "Chicle Rosa", "Chicle Azul", "Grosella"),
         defaultValue: "Sin preferencia",
     },
     image_format: {
@@ -30,6 +30,26 @@ const PrescriptionModel = db.define('prescription', {
     upload_date: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
+    },//edtion from here
+    nombre_completo: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    },
+    peso: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    fecha_de_nacimiento: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+    },
+    padecimiento: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    },
+    i_lactosa: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
     },
 });
 
