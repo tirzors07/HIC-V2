@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('hic_db', 'mr_robot', 'admin123', {
-    host: '172.210.233.153', // o la dirección IP del servidor
+const db = new Sequelize('1281859bd4', '1281859', '12345', {
+    host: '148.231.130.207', // o la dirección IP del servidor
     dialect: 'mariadb',
     port: 3306, // Asegúrate de que el puerto sea correcto
     dialectOptions: {
