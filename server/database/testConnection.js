@@ -1,5 +1,4 @@
-import db from './db.js'; // Asegúrate de que la ruta sea correcta
-
+import db from './db.js'; // path
 const testConnection = async () => {
     try {
         await db.authenticate();
@@ -9,4 +8,4 @@ const testConnection = async () => {
     }
 };
 
-export default testConnection; // Esta línea es crucial
+export default testConnection; // 
