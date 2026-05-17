@@ -61,7 +61,7 @@ export const createPrescription = async (req, res) => {
         return res.status(400).json({ message: "No se ha subido ninguna imagen." });
     }
 
-    const { user_id, flavor } = req.body;
+    const { user_id, flavor, nombre_completo, peso, fecha_de_nacimiento, padecimiento, i_lactosa } = req.body; //edition from here
     const imageUrl = `/uploads/${req.file.filename}`; // La URL de la imagen
 
     // Validamos los campos obligatorios
@@ -82,7 +82,12 @@ export const createPrescription = async (req, res) => {
             flavor: flavor,
             image_url: imageUrl,  // Ruta de la imagen
             image_format: req.file.mimetype,  // Formato de la imagen
-            image_size: req.file.size,  // Tamaño de la imagen
+            image_size: req.file.size,  // Tamaño de la imagen //edition from here
+            nombre_completo,
+            peso,
+            fecha_de_nacimiento,
+            padecimiento,
+            i_lactosa,
         });
 
         // Respondemos con éxito
